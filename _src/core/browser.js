@@ -67,7 +67,7 @@ var browser = UE.browser = function () {
        * }
        * ```
        */
-      quirks: (document.compatMode == 'BackCompat')
+      quirks: (document.compatMode === 'BackCompat')
     };
 
   /**
@@ -79,7 +79,7 @@ var browser = UE.browser = function () {
    * }
    * ```
    */
-  browser.gecko = (navigator.product == 'Gecko' && !browser.webkit && !browser.opera && !browser.ie);
+  browser.gecko = (navigator.product === 'Gecko' && !browser.webkit && !browser.opera && !browser.ie);
 
   var version = 0;
 
@@ -98,7 +98,7 @@ var browser = UE.browser = function () {
       version = 0;
     }
 
-    browser.ie11Compat = document.documentMode == 11;
+    browser.ie11Compat = document.documentMode === 11;
     /**
      * @property { boolean } ie9Compat 检测浏览器模式是否为 IE9 兼容模式
      * @warning 如果浏览器不是IE， 则该值为undefined
@@ -109,7 +109,7 @@ var browser = UE.browser = function () {
      * }
      * ```
      */
-    browser.ie9Compat = document.documentMode == 9;
+    browser.ie9Compat = document.documentMode === 9;
 
     /**
      * @property { boolean } ie8 检测浏览器是否是IE8浏览器
@@ -133,7 +133,7 @@ var browser = UE.browser = function () {
      * }
      * ```
      */
-    browser.ie8Compat = document.documentMode == 8;
+    browser.ie8Compat = document.documentMode === 8;
 
     /**
      * @property { boolean } ie7Compat 检测浏览器模式是否为 IE7 兼容模式
@@ -145,8 +145,8 @@ var browser = UE.browser = function () {
      * }
      * ```
      */
-    browser.ie7Compat = ((version == 7 && !document.documentMode)
-      || document.documentMode == 7);
+    browser.ie7Compat = ((version === 7 && !document.documentMode)
+      || document.documentMode === 7);
 
     /**
      * @property { boolean } ie6Compat 检测浏览器模式是否为 IE6 模式 或者怪异模式
@@ -172,7 +172,7 @@ var browser = UE.browser = function () {
 
   // Gecko.
   if (browser.gecko) {
-    var geckoRelease = agent.match(/rv:([\d\.]+)/);
+    var geckoRelease = agent.match(/rv:([\d.]+)/);
     if (geckoRelease) {
       geckoRelease = geckoRelease[1].split('.');
       version = geckoRelease[0] * 10000 + (geckoRelease[1] || 0) * 100 + (geckoRelease[2] || 0) * 1;
@@ -250,6 +250,7 @@ var browser = UE.browser = function () {
     false);
   return browser;
 }();
+
 //快捷方式
 var ie = browser.ie,
   webkit = browser.webkit,
