@@ -2,7 +2,7 @@
 
 module.exports = function (grunt) {
   var pkgJson = grunt.file.readJSON('package.json');
-  var disDir = "dist/";
+  var releasedir = "dist/";
   var banner = '/*!\n * UEditor\n * version: ' + pkgJson.name + '\n * build: <%= new Date() %>\n */\n\n';
 
   grunt.initConfig({
@@ -137,7 +137,7 @@ module.exports = function (grunt) {
           '_src/adapter/message.js',
           '_src/adapter/autosave.js'
         ],
-        dest: disDir + pkgJson.name + '.all.js'
+        dest: releasedir + pkgJson.name + '.all.js'
       },
       parse: {
         options: {
@@ -153,7 +153,7 @@ module.exports = function (grunt) {
           '_parse/list.js',
           '_parse/video.js'
         ],
-        dest: disDir + pkgJson.name + '.parse.js'
+        dest: releasedir + pkgJson.name + '.parse.js'
       },
       css: {
         src: [
@@ -181,7 +181,7 @@ module.exports = function (grunt) {
           'themes/default/_css/shortcutmenu.css',
           'themes/default/_css/pastepicker.css'
         ],
-        dest: disDir + 'themes/default/css/ueditor.css'
+        dest: releasedir + 'themes/default/css/ueditor.css'
       }
     },
     cssmin: {
@@ -190,9 +190,9 @@ module.exports = function (grunt) {
       },
       files: {
         expand: true,
-        cwd: disDir + 'themes/default/css/',
+        cwd: releasedir + 'themes/default/css/',
         src: ['*.css', '!*.min.css'],
-        dest: disDir + 'themes/default/css/',
+        dest: releasedir + 'themes/default/css/',
         ext: '.min.css'
       }
     },
@@ -201,12 +201,12 @@ module.exports = function (grunt) {
         banner: banner
       },
       dest: {
-        src: disDir + '<%= pkg.name %>.all.js',
-        dest: disDir + '<%= pkg.name %>.all.min.js'
+        src: releasedir + '<%= pkg.name %>.all.js',
+        dest: releasedir + '<%= pkg.name %>.all.min.js'
       },
       parse: {
-        src: disDir + '<%= pkg.name %>.parse.js',
-        dest: disDir + '<%= pkg.name %>.parse.min.js'
+        src: releasedir + '<%= pkg.name %>.parse.js',
+        dest: releasedir + '<%= pkg.name %>.parse.min.js'
       }
     },
     copy: {
@@ -222,14 +222,14 @@ module.exports = function (grunt) {
               'lang/**',
               'third-party/**'
             ],
-            dest: disDir
+            dest: releasedir
           }
         ]
       }
     },
     replace: {
       demo: {
-        src: disDir + 'index.html',
+        src: releasedir + 'index.html',
         overwrite: true,
         replacements: [
           {
@@ -246,12 +246,12 @@ module.exports = function (grunt) {
     clean: {
       build: {
         src: [
-          disDir + "jsp/src",
-          disDir + "*/upload",
-          disDir + ".DS_Store",
-          disDir + "**/.DS_Store",
-          disDir + ".git",
-          disDir + "**/.git"
+          releasedir + "jsp/src",
+          releasedir + "*/upload",
+          releasedir + ".DS_Store",
+          releasedir + "**/.DS_Store",
+          releasedir + ".git",
+          releasedir + "**/.git"
         ]
       }
     }
