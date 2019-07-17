@@ -1,61 +1,12 @@
 "use strict";
 
 module.exports = function (grunt) {
-
-  var fs = require("fs"),
-    Util = {
-
-      jsBasePath: '_src/',
-      parseBasePath: '_parse/',
-      cssBasePath: 'themes/default/_css/',
-
-      fetchScripts: function (readFile, basePath) {
-
-        var sources = fs.readFileSync(readFile);
-        sources = /\[([^\]]+\.js'[^\]]+)\]/.exec(sources);
-        sources = sources[1].replace(/\/\/.*\n/g, '\n').replace(/'|"|\n|\t|\s/g, '');
-        sources = sources.split(",");
-        sources.forEach(function (filepath, index) {
-          sources[index] = basePath + filepath;
-        });
-
-        return sources;
-      },
-
-      fetchStyles: function () {
-
-        var sources = fs.readFileSync(this.cssBasePath + "ueditor.css"),
-          filepath = null,
-          pattern = /@import\s+([^;]+)*;/g,
-          src = [];
-
-        while (filepath = pattern.exec(sources)) {
-          src.push(this.cssBasePath + filepath[1].replace(/'|"/g, ""));
-        }
-
-        return src;
-
-      }
-
-    },
-    packageJson = grunt.file.readJSON('package.json'),
-    server = grunt.option('server') || 'php',
-    encode = grunt.option('encode') || 'utf8',
-    disDir = "dist/",
-    banner = '/*!\n * UEditor\n * version: ' + packageJson.name + '\n * build: <%= new Date() %>\n */\n\n';
-
-  //init
-  (function () {
-
-    server = typeof server === "string" ? server.toLowerCase() : 'php';
-    encode = typeof encode === "string" ? encode.toLowerCase() : 'utf8';
-
-    disDir = 'dist/' + encode + '-' + server + '/';
-
-  })();
+  var pkgJson = grunt.file.readJSON('package.json');
+  var disDir = "dist/";
+  var banner = '/*!\n * UEditor\n * version: ' + pkgJson.name + '\n * build: <%= new Date() %>\n */\n\n';
 
   grunt.initConfig({
-    pkg: packageJson,
+    pkg: pkgJson,
     concat: {
       js: {
         options: {
@@ -66,19 +17,170 @@ module.exports = function (grunt) {
             return '// ' + filename + '\n' + src.replace('/_css/', '/css/') + '\n';
           }
         },
-        src: Util.fetchScripts("_examples/editor_api.js", Util.jsBasePath),
-        dest: disDir + packageJson.name + '.all.js'
+        src: [
+          '_src/editor.js',
+          '_src/core/browser.js',
+          '_src/core/utils.js',
+          '_src/core/EventBase.js',
+          '_src/core/dtd.js',
+          '_src/core/domUtils.js',
+          '_src/core/Range.js',
+          '_src/core/Selection.js',
+          '_src/core/Editor.js',
+          '_src/core/Editor.defaultoptions.js',
+          '_src/core/loadconfig.js',
+          '_src/core/ajax.js',
+          '_src/core/filterword.js',
+          '_src/core/node.js',
+          '_src/core/htmlparser.js',
+          '_src/core/filternode.js',
+          '_src/core/plugin.js',
+          '_src/core/keymap.js',
+          '_src/core/localstorage.js',
+          '_src/plugins/defaultfilter.js',
+          '_src/plugins/inserthtml.js',
+          '_src/plugins/autotypeset.js',
+          '_src/plugins/autosubmit.js',
+          '_src/plugins/background.js',
+          '_src/plugins/image.js',
+          '_src/plugins/justify.js',
+          '_src/plugins/font.js',
+          '_src/plugins/link.js',
+          '_src/plugins/iframe.js',
+          '_src/plugins/scrawl.js',
+          '_src/plugins/removeformat.js',
+          '_src/plugins/blockquote.js',
+          '_src/plugins/convertcase.js',
+          '_src/plugins/indent.js',
+          '_src/plugins/print.js',
+          '_src/plugins/preview.js',
+          '_src/plugins/selectall.js',
+          '_src/plugins/paragraph.js',
+          '_src/plugins/directionality.js',
+          '_src/plugins/horizontal.js',
+          '_src/plugins/time.js',
+          '_src/plugins/rowspacing.js',
+          '_src/plugins/lineheight.js',
+          '_src/plugins/insertcode.js',
+          '_src/plugins/cleardoc.js',
+          '_src/plugins/anchor.js',
+          '_src/plugins/wordcount.js',
+          '_src/plugins/pagebreak.js',
+          '_src/plugins/wordimage.js',
+          '_src/plugins/dragdrop.js',
+          '_src/plugins/undo.js',
+          '_src/plugins/copy.js',
+          '_src/plugins/paste.js',
+          '_src/plugins/puretxtpaste.js',
+          '_src/plugins/list.js',
+          '_src/plugins/source.js',
+          '_src/plugins/enterkey.js',
+          '_src/plugins/keystrokes.js',
+          '_src/plugins/fiximgclick.js',
+          '_src/plugins/autolink.js',
+          '_src/plugins/autoheight.js',
+          '_src/plugins/autofloat.js',
+          '_src/plugins/video.js',
+          '_src/plugins/table.core.js',
+          '_src/plugins/table.cmds.js',
+          '_src/plugins/table.action.js',
+          '_src/plugins/table.sort.js',
+          '_src/plugins/contextmenu.js',
+          '_src/plugins/shortcutmenu.js',
+          '_src/plugins/basestyle.js',
+          '_src/plugins/elementpath.js',
+          '_src/plugins/formatmatch.js',
+          '_src/plugins/searchreplace.js',
+          '_src/plugins/customstyle.js',
+          '_src/plugins/catchremoteimage.js',
+          '_src/plugins/snapscreen.js',
+          '_src/plugins/insertparagraph.js',
+          '_src/plugins/webapp.js',
+          '_src/plugins/template.js',
+          '_src/plugins/music.js',
+          '_src/plugins/autoupload.js',
+          '_src/plugins/autosave.js',
+          '_src/plugins/charts.js',
+          '_src/plugins/section.js',
+          '_src/plugins/simpleupload.js',
+          '_src/plugins/serverparam.js',
+          '_src/plugins/insertfile.js',
+          '_src/plugins/xssFilter.js',
+          '_src/ui/ui.js',
+          '_src/ui/uiutils.js',
+          '_src/ui/uibase.js',
+          '_src/ui/separator.js',
+          '_src/ui/mask.js',
+          '_src/ui/popup.js',
+          '_src/ui/colorpicker.js',
+          '_src/ui/tablepicker.js',
+          '_src/ui/stateful.js',
+          '_src/ui/button.js',
+          '_src/ui/splitbutton.js',
+          '_src/ui/colorbutton.js',
+          '_src/ui/tablebutton.js',
+          '_src/ui/autotypesetpicker.js',
+          '_src/ui/autotypesetbutton.js',
+          '_src/ui/cellalignpicker.js',
+          '_src/ui/pastepicker.js',
+          '_src/ui/toolbar.js',
+          '_src/ui/menu.js',
+          '_src/ui/combox.js',
+          '_src/ui/dialog.js',
+          '_src/ui/menubutton.js',
+          '_src/ui/multiMenu.js',
+          '_src/ui/shortcutmenu.js',
+          '_src/ui/breakline.js',
+          '_src/ui/message.js',
+          '_src/adapter/editorui.js',
+          '_src/adapter/editor.js',
+          '_src/adapter/message.js',
+          '_src/adapter/autosave.js'
+        ],
+        dest: disDir + pkgJson.name + '.all.js'
       },
       parse: {
         options: {
           banner: banner + '(function(){\n\n',
           footer: '\n\n})();\n'
         },
-        src: Util.fetchScripts("ueditor.parse.js", Util.parseBasePath),
-        dest: disDir + packageJson.name + '.parse.js'
+        src: [
+          '_parse/parse.js',
+          '_parse/insertcode.js',
+          '_parse/table.js',
+          '_parse/charts.js',
+          '_parse/background.js',
+          '_parse/list.js',
+          '_parse/video.js'
+        ],
+        dest: disDir + pkgJson.name + '.parse.js'
       },
       css: {
-        src: Util.fetchStyles(),
+        src: [
+          'themes/default/_css/uibase.css',
+          'themes/default/_css/toolbar.css',
+          'themes/default/_css/editor.css',
+          'themes/default/_css/menubutton.css',
+          'themes/default/_css/menu.css',
+          'themes/default/_css/combox.css',
+          'themes/default/_css/button.css',
+          'themes/default/_css/buttonicon.css',
+          'themes/default/_css/splitbutton.css',
+          'themes/default/_css/popup.css',
+          'themes/default/_css/message.css',
+          'themes/default/_css/dialog.css',
+          'themes/default/_css/paragraphpicker.css',
+          'themes/default/_css/tablepicker.css',
+          'themes/default/_css/colorpicker.css',
+          'themes/default/_css/autotypesetpicker.css',
+          'themes/default/_css/cellalignpicker.css',
+          'themes/default/_css/separtor.css',
+          'themes/default/_css/colorbutton.css',
+          'themes/default/_css/multiMenu.css',
+          'themes/default/_css/contextmenu.css',
+          'themes/default/_css/shortcutmenu.css',
+          'themes/default/_css/pastepicker.css'
+        ],
         dest: disDir + 'themes/default/css/ueditor.css'
       }
     },
@@ -111,70 +213,21 @@ module.exports = function (grunt) {
       base: {
         files: [
           {
-
-            src: ['*.html', 'themes/iframe.css', 'themes/default/dialogbase.css', 'themes/default/images/**', 'dialogs/**', 'lang/**', 'third-party/**'],
+            src: [
+              '*.html',
+              'themes/iframe.css',
+              'themes/default/dialogbase.css',
+              'themes/default/images/**',
+              'dialogs/**',
+              'lang/**',
+              'third-party/**'
+            ],
             dest: disDir
-
           }
         ]
-      },
-      demo: {
-        files: [
-          {
-            src: '_examples/completeDemo.html',
-            dest: disDir + 'index.html'
-          }
-        ]
-      },
-      php: {
-
-        expand: true,
-        src: 'php/**',
-        dest: disDir
-
-      },
-      asp: {
-
-        expand: true,
-        src: 'asp/**',
-        dest: disDir
-
-      },
-      jsp: {
-
-        expand: true,
-        src: 'jsp/**',
-        dest: disDir
-
-      },
-      net: {
-
-        expand: true,
-        src: 'net/**',
-        dest: disDir
-
       }
     },
-    transcoding: {
-
-      options: {
-        charset: encode
-      },
-      src: [disDir + '**/*.html', disDir + '**/*.js', disDir + '**/*.css', disDir + '**/*.json', disDir + '**/*.jsp', disDir + '**/*.asp']
-
-    },
     replace: {
-
-      fileEncode: {
-        src: [disDir + '**/*.html', disDir + 'dialogs/**/*.js', disDir + '**/*.css', disDir + '**/*.php', disDir + '**/*.jsp', disDir + '**/*.ashx', disDir + '**/*.asp'],
-        overwrite: true,
-        replacements: [
-          {
-            from: /utf-8/gi,
-            to: 'gbk'
-          }
-        ]
-      },
       demo: {
         src: disDir + 'index.html',
         overwrite: true,
@@ -185,21 +238,10 @@ module.exports = function (grunt) {
           },
           {
             from: 'editor_api.js',
-            to: packageJson.name + '.all.min.js'
-          }
-        ]
-      },
-      gbkasp: {
-        src: [disDir + 'asp/*.asp'],
-        overwrite: true,
-        replacements: [
-          {
-            from: /65001/gi,
-            to: '936'
+            to: pkgJson.name + '.all.min.js'
           }
         ]
       }
-
     },
     clean: {
       build: {
@@ -213,7 +255,6 @@ module.exports = function (grunt) {
         ]
       }
     }
-
   });
 
   grunt.loadNpmTasks('grunt-text-replace');
@@ -221,52 +262,16 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-transcoding');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.registerTask('default', 'UEditor build', function () {
-
-    var tasks = ['concat', 'cssmin', 'uglify', 'copy:base', 'copy:' + server, 'copy:demo', 'replace:demo', 'clean'];
-
-    if (encode === 'gbk') {
-      tasks.push('replace:fileEncode');
-      if (server === 'asp') {
-        tasks.push('replace:gbkasp');
-      }
-    }
-
-    tasks.push('transcoding');
-
-    //config修改
-    updateConfigFile();
-
-    grunt.task.run(tasks);
-
+    grunt.task.run([
+      'concat',
+      'cssmin',
+      'uglify',
+      'copy:base',
+      'replace:demo',
+      'clean'
+    ]);
   });
-
-
-  function updateConfigFile () {
-
-    var filename = 'ueditor.config.js',
-      file = grunt.file.read(filename),
-      path = server + "/",
-      suffix = server === "net" ? ".ashx" : "." + server;
-
-    file = file.replace(/php\//ig, path).replace(/\.php/ig, suffix);
-
-    if (encode == 'gbk') {
-      file = file.replace(/utf-8/gi, 'gbk');
-    }
-
-    //写入到dist
-    if (grunt.file.write(disDir + filename, file)) {
-
-      grunt.log.writeln('config file update success');
-
-    } else {
-      grunt.log.warn('config file update error');
-    }
-
-  }
-
 };
