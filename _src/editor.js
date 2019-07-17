@@ -4,7 +4,7 @@ var baidu = window.baidu || {};
 
 window.baidu = baidu;
 
-window.UE = baidu.editor =  window.UE || {};
+window.UE = baidu.editor = window.UE || {};
 
 UE.plugins = {};
 
@@ -16,6 +16,6 @@ UE.I18N = {};
 
 UE._customizeUI = {};
 
-UE.version = "1.4.3";
+UE.version = "2.0.0";
 
 var dom = UE.dom = {};
