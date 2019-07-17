@@ -3,7 +3,7 @@
 module.exports = function (grunt) {
   var pkgJson = grunt.file.readJSON('package.json');
   var releasedir = "dist/";
-  var banner = '/*!\n * UEditor\n * version: ' + pkgJson.name + '\n * build: <%= new Date() %>\n */\n\n';
+  var banner = '/*!\n * package: '+ pkgJson.name +'\n * version: ' + pkgJson.version + '\n * build: <%= new Date() %>\n */\n\n';
 
   grunt.initConfig({
     pkg: pkgJson,
@@ -227,22 +227,6 @@ module.exports = function (grunt) {
         ]
       }
     },
-    replace: {
-      demo: {
-        src: releasedir + 'index.html',
-        overwrite: true,
-        replacements: [
-          {
-            from: /\.\.\//gi,
-            to: ''
-          },
-          {
-            from: 'editor_api.js',
-            to: pkgJson.name + '.all.min.js'
-          }
-        ]
-      }
-    },
     clean: {
       build: {
         src: [
@@ -257,7 +241,6 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -270,7 +253,6 @@ module.exports = function (grunt) {
       'cssmin',
       'uglify',
       'copy:base',
-      'replace:demo',
       'clean'
     ]);
   });
