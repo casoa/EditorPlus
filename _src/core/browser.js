@@ -74,3 +74,4 @@ var browser = UE.browser = function () {
 var ie = browser.ie;
 var webkit = browser.webkit;
 var gecko = browser.gecko;
+
