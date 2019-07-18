@@ -76,7 +76,7 @@ UE.commands['inserthtml'] = {
                 if(domUtils.isBoundaryNode(tmpNode,'firstChild') ){
                     tmpNode = range.endContainer;
                     if(range.endOffset == (tmpNode.nodeType == 3 ? tmpNode.nodeValue.length : tmpNode.childNodes.length) && domUtils.isBoundaryNode(tmpNode,'lastChild')){
-                        me.body.innerHTML = '<p>'+(browser.ie ? '' : '<br/>')+'</p>';
+                        me.body.innerHTML = '<p><br/></p>';
                         range.setStart(me.body.firstChild,0).collapse(true)
 
                     }
@@ -192,7 +192,7 @@ UE.commands['inserthtml'] = {
                         }
                         //trace:2012,在非ie的情况，切开后剩下的节点有可能不能点入光标添加br占位
 
-                        if(!browser.ie &&
+                        if(
                             (next = child.nextSibling) &&
                             domUtils.isBlockElm(next) &&
                             next.lastChild &&
@@ -228,7 +228,7 @@ UE.commands['inserthtml'] = {
                 }else{
 
                     try{
-                        child.innerHTML = browser.ie ? domUtils.fillChar : '<br/>';
+                        child.innerHTML = '<br/>';
                     }catch(e){
                         range.setStartBefore(child);
                         domUtils.remove(child)

@@ -2,16 +2,12 @@
     var browser = baidu.editor.browser,
         domUtils = baidu.editor.dom.domUtils,
         uiUtils = baidu.editor.ui.uiUtils;
-    
+
     var TPL_STATEFUL = 'onmousedown="$$.Stateful_onMouseDown(event, this);"' +
         ' onmouseup="$$.Stateful_onMouseUp(event, this);"' +
-        ( browser.ie ? (
-        ' onmouseenter="$$.Stateful_onMouseEnter(event, this);"' +
-        ' onmouseleave="$$.Stateful_onMouseLeave(event, this);"' )
-        : (
         ' onmouseover="$$.Stateful_onMouseOver(event, this);"' +
-        ' onmouseout="$$.Stateful_onMouseOut(event, this);"' ));
-    
+        ' onmouseout="$$.Stateful_onMouseOut(event, this);"';
+
     baidu.editor.ui.Stateful = {
         alwalysHoverable: false,
         target:null,//目标元素和this指向dom不一样

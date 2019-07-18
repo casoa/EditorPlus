@@ -32,7 +32,7 @@
     };
     UETable.isEmptyBlock = function (node) {
         var reg = new RegExp(domUtils.fillChar, 'g');
-        if (node[browser.ie ? 'innerText' : 'textContent'].replace(/^\s*$/, '').replace(reg, '').length > 0) {
+        if (node['textContent'].replace(/^\s*$/, '').replace(reg, '').length > 0) {
             return 0;
         }
         for (var i in dtd.$isNotEmpty) if (dtd.$isNotEmpty.hasOwnProperty(i)) {
@@ -327,7 +327,7 @@
             }
         },
         setCellContent:function (cell, content) {
-            cell.innerHTML = content || (browser.ie ? domUtils.fillChar : "<br />");
+            cell.innerHTML = content || "<br />";
         },
         cloneCell:UETable.cloneCell,
         /**

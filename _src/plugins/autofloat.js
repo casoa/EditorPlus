@@ -20,9 +20,7 @@ UE.plugins['autofloat'] = function() {
     if(!optsAutoFloatEnabled){
         return;
     }
-    var uiUtils = UE.ui.uiUtils,
-        LteIE6 = browser.ie && browser.version <= 6,
-        quirks = browser.quirks;
+    var uiUtils = UE.ui.uiUtils;
 
     function checkHasUI(){
         if(!UE.ui){
@@ -30,11 +28,6 @@ UE.plugins['autofloat'] = function() {
             return 0;
         }
         return 1;
-    }
-    function fixIE6FixedPos(){
-        var docStyle = document.body.style;
-        docStyle.backgroundImage = 'url("about:blank")';
-        docStyle.backgroundAttachment = 'fixed';
     }
     var	bakCssText,
         placeHolder = document.createElement('div'),
@@ -48,21 +41,11 @@ UE.plugins['autofloat'] = function() {
         toolbarBox.style.width = toolbarBox.offsetWidth + 'px';
         toolbarBox.style.zIndex = me.options.zIndex * 1 + 1;
         toolbarBox.parentNode.insertBefore(placeHolder, toolbarBox);
-        if (LteIE6 || (quirks && browser.ie)) {
-            if(toolbarBox.style.position != 'absolute'){
-                toolbarBox.style.position = 'absolute';
-            }
-            toolbarBox.style.top = (document.body.scrollTop||document.documentElement.scrollTop) - orgTop + topOffset  + 'px';
-        } else {
-            if (browser.ie7Compat && flag) {
-                flag = false;
-                toolbarBox.style.left =  domUtils.getXY(toolbarBox).x - document.documentElement.getBoundingClientRect().left+2  + 'px';
-            }
-            if(toolbarBox.style.position != 'fixed'){
-                toolbarBox.style.position = 'fixed';
-                toolbarBox.style.top = topOffset +"px";
-                ((origalFloat == 'absolute' || origalFloat == 'relative') && parseFloat(origalLeft)) && (toolbarBox.style.left = toobarBoxPos.x + 'px');
-            }
+
+        if(toolbarBox.style.position != 'fixed'){
+          toolbarBox.style.position = 'fixed';
+          toolbarBox.style.top = topOffset +"px";
+          ((origalFloat == 'absolute' || origalFloat == 'relative') && parseFloat(origalLeft)) && (toolbarBox.style.left = toobarBoxPos.x + 'px');
         }
     }
     function unsetFloating(){
@@ -85,7 +68,7 @@ UE.plugins['autofloat'] = function() {
     }
     var defer_updateFloating = utils.defer(function(){
         updateFloating();
-    },browser.ie ? 200 : 100,true);
+    },100,true);
 
     me.addListener('destroy',function(){
         domUtils.un(window, ['scroll','resize'], updateFloating);
@@ -103,9 +86,6 @@ UE.plugins['autofloat'] = function() {
             orgTop = getPosition(toolbarBox).top;
             bakCssText = toolbarBox.style.cssText;
             placeHolder.style.height = toolbarBox.offsetHeight + 'px';
-            if(LteIE6){
-                fixIE6FixedPos();
-            }
             domUtils.on(window, ['scroll','resize'], updateFloating);
             me.addListener('keydown', defer_updateFloating);
 

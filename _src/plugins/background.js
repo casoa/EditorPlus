@@ -57,7 +57,7 @@ UE.plugin.register('background', function () {
                     "background-color": domUtils.getComputedStyle(body, "background-color") || "#ffffff",
                     'background-image': url ? 'url(' + url + ')' : '',
                     'background-repeat': domUtils.getComputedStyle(body, "background-repeat") || "",
-                    'background-position': browser.ie ? (domUtils.getComputedStyle(body, "background-position-x") + " " + domUtils.getComputedStyle(body, "background-position-y")) : domUtils.getComputedStyle(body, "background-position"),
+                    'background-position': domUtils.getComputedStyle(body, "background-position"),
                     'height': domUtils.getComputedStyle(body, "height")
                 };
                 for (var name in bgObj) {

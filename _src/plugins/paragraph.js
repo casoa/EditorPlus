@@ -58,7 +58,7 @@ UE.plugins['paragraph'] = function() {
                         } );
                     }
                     tmpRange.setEndAfter( tmpNode );
-                    
+
                     para = range.document.createElement( style );
                     if(attrs){
                         domUtils.setAttributes(para,attrs);
@@ -70,7 +70,7 @@ UE.plugins['paragraph'] = function() {
                     //需要内容占位
                     if(domUtils.isEmptyNode(para)){
                         domUtils.fillChar(range.document,para);
-                        
+
                     }
 
                     tmpRange.insertNode( para );
@@ -125,17 +125,6 @@ UE.plugins['paragraph'] = function() {
                 var txt = this.document.createTextNode('p');
                 range.insertNode(txt);
                 //去掉冗余的fillchar
-                if(browser.ie){
-                    var node = txt.previousSibling;
-                    if(node && domUtils.isWhitespace(node)){
-                        domUtils.remove(node);
-                    }
-                    node = txt.nextSibling;
-                    if(node && domUtils.isWhitespace(node)){
-                        domUtils.remove(node);
-                    }
-                }
-
             }
             range = doParagraph(range,style,attrs,sourceCmdName);
             if(txt){

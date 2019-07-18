@@ -116,7 +116,7 @@ UE.plugins['list'] = function () {
         customCss.push('.list-paddingleft-2{padding-left:'+me.options.listDefaultPaddingLeft+'px}');
         customCss.push('.list-paddingleft-3{padding-left:'+me.options.listDefaultPaddingLeft*2+'px}');
         //如果不给宽度会在自定应样式里出现滚动条
-        utils.cssRule('list', 'ol,ul{margin:0;pading:0;'+(browser.ie ? '' : 'width:95%')+'}li{clear:both;}'+customCss.join('\n'), me.document);
+        utils.cssRule('list', 'ol,ul{margin:0;pading:0;width:95%}li{clear:both;}'+customCss.join('\n'), me.document);
     });
     //单独处理剪切的问题
     me.ready(function(){
@@ -250,7 +250,7 @@ UE.plugins['list'] = function () {
             //trace:3357
             //p不能为空
             if (!tmpP.firstChild()) {
-                tmpP.innerHTML(browser.ie ? '&nbsp;' : '<br/>')
+                tmpP.innerHTML('<br/>')
             }
             //去掉末尾的空白
             var p = li.firstChild();
@@ -300,14 +300,7 @@ UE.plugins['list'] = function () {
 
                 function appendLi(list,p,type){
                     if(list.tagName == 'ol'){
-                        if(browser.ie){
-                            var first = p.firstChild();
-                            if(first.type =='element' && first.tagName == 'span' && orderlisttype[type].test(first.innerText())){
-                                p.removeChild(first);
-                            }
-                        }else{
-                            p.innerHTML(p.innerHTML().replace(orderlisttype[type],''));
-                        }
+                        p.innerHTML(p.innerHTML().replace(orderlisttype[type],''));
                     }else{
                         p.removeChild(p.firstChild())
                     }

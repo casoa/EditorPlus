@@ -78,8 +78,8 @@ UE.plugins['link'] = function(){
         var start = range.startContainer;
         if(start.nodeType == 1 && link){
             start = start.childNodes[range.startOffset];
-            if(start && start.nodeType == 1 && start.tagName == 'A' && /^(?:https?|ftp|file)\s*:\s*\/\//.test(start[browser.ie?'innerText':'textContent'])){
-                start[browser.ie ? 'innerText' : 'textContent'] =  utils.html(opt.textValue||opt.href);
+            if(start && start.nodeType == 1 && start.tagName == 'A' && /^(?:https?|ftp|file)\s*:\s*\/\//.test(start['textContent'])){
+                start['textContent'] =  utils.html(opt.textValue||opt.href);
 
             }
         }
@@ -105,7 +105,7 @@ UE.plugins['link'] = function(){
                 range.setStartAfter(start).collapse(true);
 
             }
-            a[browser.ie ? 'innerText' : 'textContent'] = text;
+            a['textContent'] = text;
             range.insertNode(a).selectNode( a );
         } else {
             range.applyInlineStyle( 'a', opt );

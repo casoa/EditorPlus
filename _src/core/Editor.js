@@ -405,7 +405,7 @@
 
         container.style.zIndex = options.zIndex;
 
-        var html = (ie && browser.version < 9 ? '' : '<!DOCTYPE html>') +
+        var html = '<!DOCTYPE html>' +
           '<html xmlns=\'http://www.w3.org/1999/xhtml\' class=\'view\' ><head>' +
           '<style type=\'text/css\'>' +
           //设置四周的留边
@@ -418,7 +418,7 @@
           (options.iframeCssUrl ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'' + utils.unhtml(options.iframeCssUrl) + '\'/>' : '') +
           (options.initialStyle ? '<style>' + options.initialStyle + '</style>' : '') +
           '</head><body class=\'view\' ></body>' +
-          '<script type=\'text/javascript\' ' + (ie ? 'defer=\'defer\'' : '') + ' id=\'_initialScript\'>' +
+          '<script type=\'text/javascript\'  id=\'_initialScript\'>' +
           'setTimeout(function(){editor = window.parent.UE.instants[\'ueditorInstant' + me.uid + '\'];editor._setup(document);},0);' +
           'var _tmpScript = document.getElementById(\'_initialScript\');_tmpScript.parentNode.removeChild(_tmpScript);</script></html>';
         container.appendChild(domUtils.createElement(document, 'iframe', {
@@ -457,13 +457,9 @@
 
       var me = this,
         options = me.options;
-      if (ie) {
-        doc.body.disabled = true;
+
         doc.body.contentEditable = true;
-        doc.body.disabled = false;
-      } else {
-        doc.body.contentEditable = true;
-      }
+
       doc.body.spellcheck = false;
       me.document = doc;
       me.window = doc.defaultView || doc.parentWindow;
@@ -507,7 +503,7 @@
       //编辑器不能为空内容
 
       if (domUtils.isEmptyNode(me.body)) {
-        me.body.innerHTML = '<p>' + (browser.ie ? '' : '<br/>') + '</p>';
+        me.body.innerHTML = '<p><br/></p>';
       }
       //如果要求focus, 就把光标定位到内容开始
       if (options.focus) {
@@ -542,26 +538,24 @@
       me.isReady = 1;
       me.fireEvent('ready');
       options.onready && options.onready.call(me);
-      if (!browser.ie9below) {
-        domUtils.on(me.window, ['blur', 'focus'], function (e) {
-          //chrome下会出现alt+tab切换时，导致选区位置不对
-          if (e.type == 'blur') {
-            me._bakRange = me.selection.getRange();
-            try {
-              me._bakNativeRange = me.selection.getNative().getRangeAt(0);
-              me.selection.getNative().removeAllRanges();
-            } catch (e) {
-              me._bakNativeRange = null;
-            }
-
-          } else {
-            try {
-              me._bakRange && me._bakRange.select();
-            } catch (e) {
-            }
+      domUtils.on(me.window, ['blur', 'focus'], function (e) {
+        //chrome下会出现alt+tab切换时，导致选区位置不对
+        if (e.type == 'blur') {
+          me._bakRange = me.selection.getRange();
+          try {
+            me._bakNativeRange = me.selection.getNative().getRangeAt(0);
+            me.selection.getNative().removeAllRanges();
+          } catch (e) {
+            me._bakNativeRange = null;
           }
-        });
-      }
+
+        } else {
+          try {
+            me._bakRange && me._bakRange.select();
+          } catch (e) {
+          }
+        }
+      });
       //trace:1518 ff3.6body不够寛，会导致点击空白处无法获得焦点
       if (browser.gecko && browser.version <= 10902) {
         //修复ff3.6初始化进来，不能点击获得焦点
@@ -749,19 +743,9 @@
         headHtml = [],
         html = '';
       me.fireEvent('getAllHtml', headHtml);
-      if (browser.ie && browser.version > 8) {
-        var headHtmlForIE9 = '';
-        utils.each(me.document.styleSheets, function (si) {
-          headHtmlForIE9 += (si.href ? '<link rel="stylesheet" type="text/css" href="' + si.href + '" />' : '<style>' + si.cssText + '</style>');
-        });
-        utils.each(me.document.getElementsByTagName('script'), function (si) {
-          headHtmlForIE9 += si.outerHTML;
-        });
-
-      }
       return '<html><head>' + (me.options.charset ? '<meta http-equiv="Content-Type" content="text/html; charset=' + me.options.charset + '"/>' : '')
         + (headHtmlForIE9 || me.document.getElementsByTagName('head')[0].innerHTML) + headHtml.join('\n') + '</head>'
-        + '<body ' + (ie && browser.version < 9 ? 'class="view"' : '') + '>' + me.getContent(null, null, true) + '</body></html>';
+        + '<body>' + me.getContent(null, null, true) + '</body></html>';
     },
 
     /**
@@ -800,7 +784,7 @@
     getContentTxt: function () {
       var reg = new RegExp(domUtils.fillChar, 'g');
       //取出来的空格会有c2a0会变成乱码，处理这种情况\u00a0
-      return this.body[browser.ie ? 'innerText' : 'textContent'].replace(reg, '').replace(/\u00a0/g, ' ');
+      return this.body['textContent'].replace(reg, '').replace(/\u00a0/g, ' ');
     },
 
     /**
@@ -852,7 +836,7 @@
             domUtils.isCustomeNode(child)
           )
           && child === this.body.lastChild) {
-          this.body.innerHTML = '<p>' + (browser.ie ? '&nbsp;' : '<br/>') + '</p>' + this.body.innerHTML;
+          this.body.innerHTML = '<p><br/></p>' + this.body.innerHTML;
 
         } else {
           var p = me.document.createElement('p');
@@ -946,15 +930,7 @@
     },
     blur: function () {
       var sel = this.selection.getNative();
-      if (sel.empty && browser.ie) {
-        var nativeRng = document.body.createTextRange();
-        nativeRng.moveToElementText(document.body);
-        nativeRng.collapse(true);
-        nativeRng.select();
-        sel.empty()
-      } else {
-        sel.removeAllRanges()
-      }
+      sel.removeAllRanges()
 
       //this.fireEvent('blur selectionchange');
     },
@@ -1017,14 +993,6 @@
 
       var hackForMouseUp = false;
       var mouseX, mouseY;
-      if (browser.ie && browser.version < 9 && evt && evt.type == 'mouseup') {
-        var range = this.selection.getRange();
-        if (!range.collapsed) {
-          hackForMouseUp = true;
-          mouseX = evt.clientX;
-          mouseY = evt.clientY;
-        }
-      }
       clearTimeout(_selectionChangeTimer);
       _selectionChangeTimer = setTimeout(function () {
         if (!me.selection || !me.selection.getNative()) {
@@ -1309,7 +1277,7 @@
       function clear () {
         var me = this;
         if (me.document.getElementById('initContent')) {
-          me.body.innerHTML = '<p>' + (ie ? '' : '<br/>') + '</p>';
+          me.body.innerHTML = '<p><br/></p>';
           me.removeListener('firstBeforeExecCommand focus', clear);
           setTimeout(function () {
             me.focus();

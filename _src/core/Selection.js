@@ -121,28 +121,13 @@
   var Selection = dom.Selection = function (doc) {
     var me = this, iframe;
     me.document = doc;
-    if (browser.ie9below) {
-      iframe = domUtils.getWindow(doc).frameElement;
-      domUtils.on(iframe, 'beforedeactivate', function () {
-        me._bakIERange = me.getIERange();
-      });
-      domUtils.on(iframe, 'activate', function () {
-        try {
-          if (!_getIERange(me) && me._bakIERange) {
-            me._bakIERange.select();
-          }
-        } catch (ex) {
-        }
-        me._bakIERange = null;
-      });
-    }
     iframe = doc = null;
   };
 
   Selection.prototype = {
 
     rangeInBody: function (rng, txtRange) {
-      var node = browser.ie9below || txtRange ? rng.item ? rng.item() : rng.parentElement() : rng.startContainer;
+      var node = txtRange ? rng.item ? rng.item() : rng.parentElement() : rng.startContainer;
 
       return node === this.document.body || domUtils.inDoc(node, this.document);
     },
@@ -159,7 +144,7 @@
     getNative: function () {
       var doc = this.document;
       try {
-        return !doc ? null : browser.ie9below ? doc.selection : domUtils.getWindow(doc).getSelection();
+        return !doc ? null : false ? doc.selection : domUtils.getWindow(doc).getSelection();
       } catch (e) {
         return null;
       }
@@ -229,17 +214,10 @@
      */
     isFocus: function () {
       try {
-        if (browser.ie9below) {
-
-          var nativeRange = _getIERange(this);
-          return !!(nativeRange && this.rangeInBody(nativeRange));
-        } else {
-          return !!this.getNative().rangeCount;
-        }
+        return !!this.getNative().rangeCount;
       } catch (e) {
         return false;
       }
-
     },
 
     /**
@@ -274,36 +252,22 @@
       }
       var range = new baidu.editor.dom.Range(me.document);
 
-      if (browser.ie9below) {
-        var nativeRange = me.getIERange();
-        if (nativeRange) {
-          //备份的_bakIERange可能已经实效了，dom树发生了变化比如从源码模式切回来，所以try一下，实效就放到body开始位置
-          try {
-            transformIERangeToRange(nativeRange, range);
-          } catch (e) {
-            optimze(range);
-          }
-
-        } else {
+      var sel = me.getNative();
+      if (sel && sel.rangeCount) {
+        var firstRange = sel.getRangeAt(0);
+        var lastRange = sel.getRangeAt(sel.rangeCount - 1);
+        range.setStart(firstRange.startContainer, firstRange.startOffset).setEnd(lastRange.endContainer, lastRange.endOffset);
+        if (range.collapsed && domUtils.isBody(range.startContainer) && !range.startOffset) {
           optimze(range);
         }
       } else {
-        var sel = me.getNative();
-        if (sel && sel.rangeCount) {
-          var firstRange = sel.getRangeAt(0);
-          var lastRange = sel.getRangeAt(sel.rangeCount - 1);
-          range.setStart(firstRange.startContainer, firstRange.startOffset).setEnd(lastRange.endContainer, lastRange.endOffset);
-          if (range.collapsed && domUtils.isBody(range.startContainer) && !range.startOffset) {
-            optimze(range);
-          }
-        } else {
-          //trace:1734 有可能已经不在dom树上了，标识的节点
-          if (this._bakRange && domUtils.inDoc(this._bakRange.startContainer, this.document)) {
-            return this._bakRange;
-          }
-          optimze(range);
+        //trace:1734 有可能已经不在dom树上了，标识的节点
+        if (this._bakRange && domUtils.inDoc(this._bakRange.startContainer, this.document)) {
+          return this._bakRange;
         }
+        optimze(range);
       }
+
       return this._bakRange = range;
     },
 
@@ -320,31 +284,10 @@
       if (this._cachedStartElement) {
         return this._cachedStartElement;
       }
-      var range = browser.ie9below ? this.getIERange() : this.getRange(),
+      var range = this.getRange(),
         tmpRange,
         start, tmp, parent;
-      if (browser.ie9below) {
-        if (!range) {
-          //todo 给第一个值可能会有问题
-          return this.document.body.firstChild;
-        }
-        //control元素
-        if (range.item) {
-          return range.item(0);
-        }
-        tmpRange = range.duplicate();
-        //修正ie下<b>x</b>[xx] 闭合后 <b>x|</b>xx
-        tmpRange.text.length > 0 && tmpRange.moveStart('character', 1);
-        tmpRange.collapse(1);
-        start = tmpRange.parentElement();
-        parent = tmp = range.parentElement();
-        while (tmp = tmp.parentNode) {
-          if (tmp == start) {
-            start = parent;
-            break;
-          }
-        }
-      } else {
+
         range.shrinkBoundary();
         start = range.startContainer;
         if (start.nodeType == 1 && start.hasChildNodes()) {
@@ -353,7 +296,7 @@
         if (start.nodeType == 3) {
           return start.parentNode;
         }
-      }
+
       return start;
     },
 
@@ -369,8 +312,8 @@
     getText: function () {
       var nativeSel, nativeRange;
       if (this.isFocus() && (nativeSel = this.getNative())) {
-        nativeRange = browser.ie9below ? nativeSel.createRange() : nativeSel.getRangeAt(0);
-        return browser.ie9below ? nativeRange.text : nativeRange.toString();
+        nativeRange = nativeSel.getRangeAt(0);
+        return nativeRange.toString();
       }
       return '';
     },
@@ -384,7 +327,7 @@
      * ```
      */
     clearRange: function () {
-      this.getNative()[browser.ie9below ? 'empty' : 'removeAllRanges']();
+      this.getNative()['removeAllRanges']();
     }
   };
 })();

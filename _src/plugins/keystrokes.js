@@ -39,7 +39,7 @@ UE.plugins['keystrokes'] = function() {
                     tmpNode = rng.endContainer;
                     if(rng.endOffset == (tmpNode.nodeType == 3 ? tmpNode.nodeValue.length : tmpNode.childNodes.length) && domUtils.isBoundaryNode(tmpNode,'lastChild')){
                         me.fireEvent('saveScene');
-                        me.body.innerHTML = '<p>'+(browser.ie ? '' : '<br/>')+'</p>';
+                        me.body.innerHTML = '<p><br/></p>';
                         rng.setStart(me.body.firstChild,0).setCursor(false,true);
                         me._selectionChange();
                         return;
@@ -81,14 +81,14 @@ UE.plugins['keystrokes'] = function() {
                 return;
             }
             //阻止在table上的删除
-            if (!browser.ie) {
+
                 start = domUtils.findParentByTagName(rng.startContainer, 'table', true);
                 end = domUtils.findParentByTagName(rng.endContainer, 'table', true);
                 if (start && !end || !start && end || start !== end) {
                     evt.preventDefault();
                     return;
                 }
-            }
+
 
         }
         //处理tab键的逻辑
@@ -188,7 +188,7 @@ UE.plugins['keystrokes'] = function() {
                 //处理当删除到body时，要重新给p标签展位
                 if(domUtils.isBody(rng.startContainer)){
                     var tmpNode = domUtils.createElement(me.document,'p',{
-                        'innerHTML' : browser.ie ? domUtils.fillChar : '<br/>'
+                        'innerHTML' : '<br/>'
                     });
                     rng.insertNode(tmpNode).setStart(tmpNode,0).setCursor(false,true);
                 }
@@ -197,15 +197,7 @@ UE.plugins['keystrokes'] = function() {
 
             //chrome下如果删除了inline标签，浏览器会有记忆，在输入文字还是会套上刚才删除的标签，所以这里再选一次就不会了
             if( !collapsed && (rng.startContainer.nodeType == 3 || rng.startContainer.nodeType == 1 && domUtils.isEmptyBlock(rng.startContainer))){
-                if(browser.ie){
-                    var span = rng.document.createElement('span');
-                    rng.insertNode(span).setStartBefore(span).collapse(true);
-                    rng.select();
-                    domUtils.remove(span)
-                }else{
                     rng.select()
-                }
-
             }
         }
 

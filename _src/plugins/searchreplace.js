@@ -37,7 +37,7 @@ UE.plugin.register('searchreplace',function(){
         }
         var first = 1;
         while(node){
-            textContent = node.nodeType == 3 ? node.nodeValue : node[browser.ie ? 'innerText' : 'textContent'];
+            textContent = node.nodeType == 3 ? node.nodeValue : node['textContent'];
             index = findTextInString(textContent,opt,currentIndex );
             first = 0;
             if(index!=-1){
@@ -51,7 +51,7 @@ UE.plugin.register('searchreplace',function(){
                 node = domUtils[methodName](node,true);
             }
             if(node){
-                currentIndex = opt.dir == -1 ? (node.nodeType == 3 ? node.nodeValue : node[browser.ie ? 'innerText' : 'textContent']).length : 0;
+                currentIndex = opt.dir == -1 ? (node.nodeType == 3 ? node.nodeValue : node['textContent']).length : 0;
             }
 
         }
@@ -72,7 +72,7 @@ UE.plugin.register('searchreplace',function(){
                     }
                 }
             }else if(!dtd.$empty[currentNode.tagName]){
-                currentNodeLength = currentNode[browser.ie ? 'innerText' : 'textContent'].replace(/(^[\t\r\n]+)|([\t\r\n]+$)/,'').length
+                currentNodeLength = currentNode['textContent'].replace(/(^[\t\r\n]+)|([\t\r\n]+$)/,'').length
                 currentIndex += currentNodeLength;
                 if(currentIndex >= index){
                     result = findNTextInBlockElm(currentNode,currentNodeLength - (currentIndex - index),str);
@@ -116,7 +116,7 @@ UE.plugin.register('searchreplace',function(){
         rng.insertNode(span);
         rng.enlargeToBlockElm(true);
         startBlockNode = rng.startContainer;
-        var currentIndex = startBlockNode[browser.ie ? 'innerText' : 'textContent'].indexOf('$$ueditor_searchreplace_key$$');
+        var currentIndex = startBlockNode['textContent'].indexOf('$$ueditor_searchreplace_key$$');
         rng.setStartBefore(span);
         domUtils.remove(span);
         var result = findTextBlockElm(startBlockNode,currentIndex,opt);

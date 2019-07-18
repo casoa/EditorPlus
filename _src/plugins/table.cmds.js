@@ -34,7 +34,7 @@
                 for (var r = 0; r < rowsNum; r++) {
                     html.push('<tr' + (r == 0 ? ' class="firstRow"':'') + '>');
                     for (var c = 0; c < colsNum; c++) {
-                        html.push('<td width="' + tdWidth + '"  vAlign="' + opt.tdvalign + '" >' + (browser.ie && browser.version < 11 ? domUtils.fillChar : '<br/>') + '</td>')
+                        html.push('<td width="' + tdWidth + '"  vAlign="' + opt.tdvalign + '" ><br/></td>')
                     }
                     html.push('</tr>')
                 }
@@ -74,7 +74,7 @@
             var table = getTableItemsByRange(this).table;
             if (table) {
                 var p = this.document.createElement("p");
-                p.innerHTML = browser.ie ? '&nbsp;' : '<br />';
+                p.innerHTML = '<br />';
                 table.parentNode.insertBefore(p, table);
                 this.selection.getRange().setStart(p, 0).setCursor();
             }
@@ -93,7 +93,7 @@
                 var next = table.nextSibling;
                 if (!next) {
                     next = domUtils.createElement(this.document, 'p', {
-                        'innerHTML': browser.ie ? domUtils.fillChar : '<br/>'
+                        'innerHTML': '<br/>'
                     });
                     table.parentNode.insertBefore(next, table);
                 }
@@ -149,7 +149,7 @@
             var table = getTableItemsByRange(this).table;
             if (table) {
                 var caption = this.document.createElement('caption');
-                caption.innerHTML = browser.ie ? domUtils.fillChar : '<br/>';
+                caption.innerHTML = '<br/>';
                 table.insertBefore(caption, table.firstChild);
                 var range = this.selection.getRange();
                 range.setStart(caption, 0).setCursor();
@@ -697,12 +697,7 @@
                     }
                     rowNum = count;
                 }
-                //ie8下是混杂模式
-                if (browser.ie && browser.version < 9) {
-                    averageHeight = Math.ceil(sumHeight / rowNum);
-                } else {
-                    averageHeight = Math.ceil(sumHeight / rowNum) - tbAttr.tdBorder * 2 - tdpadding * 2;
-                }
+                averageHeight = Math.ceil(sumHeight / rowNum) - tbAttr.tdBorder * 2 - tdpadding * 2;
                 return averageHeight;
             }
 
@@ -778,9 +773,6 @@
     //表格对齐方式
     UE.commands['tablealignment'] = {
         queryCommandState: function () {
-            if (browser.ie && browser.version < 8) {
-                return -1;
-            }
             return getTableItemsByRange(this).table ? 0 : -1
         },
         execCommand: function (cmd, value) {

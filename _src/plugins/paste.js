@@ -137,12 +137,11 @@ UE.plugins['paste'] = function () {
                     ci.removeAttribute('_moz_dirty');
                 }
             }
-            if (!browser.ie) {
-                var spans = div.querySelectorAll('span.Apple-style-span');
-                for (var i = 0, ci; ci = spans[i++];) {
-                    domUtils.remove(ci, true);
-                }
-            }
+
+              var spans = div.querySelectorAll('span.Apple-style-span');
+              for (var i = 0, ci; ci = spans[i++];) {
+                domUtils.remove(ci, true);
+              }
 
             //ie下使用innerHTML会产生多余的\r\n字符，也会产生&nbsp;这里过滤掉
             html = div.innerHTML;//.replace(/>(?:(\s|&nbsp;)*?)</g,'><');
@@ -278,8 +277,8 @@ UE.plugins['paste'] = function () {
         });
 
         //ie下beforepaste在点击右键时也会触发，所以用监控键盘才处理
-        domUtils.on(me.body, browser.ie || browser.opera ? 'keydown' : 'paste', function (e) {
-            if ((browser.ie || browser.opera) && ((!e.ctrlKey && !e.metaKey) || e.keyCode != '86')) {
+        domUtils.on(me.body, browser.opera ? 'keydown' : 'paste', function (e) {
+            if ((browser.opera) && ((!e.ctrlKey && !e.metaKey) || e.keyCode != '86')) {
                 return;
             }
             getClipboardData.call(me, function (div) {
@@ -291,14 +290,7 @@ UE.plugins['paste'] = function () {
 
     me.commands['paste'] = {
         execCommand: function (cmd) {
-            if (browser.ie) {
-                getClipboardData.call(me, function (div) {
-                    filter(div);
-                });
-                me.document.execCommand('paste');
-            } else {
-                alert(me.getLang('pastemsg'));
-            }
+          alert(me.getLang('pastemsg'));
         }
     }
 };

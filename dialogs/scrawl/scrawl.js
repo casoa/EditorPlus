@@ -194,7 +194,7 @@ var scrawl = function (options) {
             var me = this;
             domUtils.on($G("J_brushBar"), "click", function (e) {
                 var target = me.getTarget(e),
-                    size = browser.ie ? target.innerText : target.text;
+                    size = target.text;
                 if (!!size) {
                     me._addBESelect(target);
 
@@ -209,7 +209,7 @@ var scrawl = function (options) {
             var me = this;
             domUtils.on($G("J_eraserBar"), "click", function (e) {
                 var target = me.getTarget(e),
-                    size = browser.ie ? target.innerText : target.text;
+                    size = target.text;
                 if (!!size) {
                     me._addBESelect(target);
 
@@ -277,9 +277,7 @@ var scrawl = function (options) {
         _addClearSelectionListenter:function () {
             var doc = document;
             domUtils.on(doc, 'mousemove', function (e) {
-                if (browser.ie && browser.version < 11)
-                    doc.selection.clear();
-                else
+
                     window.getSelection().removeAllRanges();
             });
         },
@@ -320,7 +318,7 @@ var scrawl = function (options) {
             var brushList = $G("J_brushBar").children;
             for (var i = 0, ele; ele = brushList[i++];) {
                 if (ele.tagName.toLowerCase() == "a") {
-                    var size = browser.ie ? ele.innerText : ele.text;
+                    var size = ele.text;
                     if (size.toLowerCase() == text) {
                         ele.style.opacity = 1;
                     }
@@ -339,7 +337,7 @@ var scrawl = function (options) {
             for (var k = 0, ele; ele = brushList[k++];) {
                 if (ele.tagName.toLowerCase() == "a") {
                     ele.style.opacity = 0.3;
-                    var size = browser.ie ? ele.innerText : ele.text;
+                    var size = ele.text;
                     if (size.toLowerCase() == this.brushWidth) {
                         ele.style.opacity = 1;
                     }

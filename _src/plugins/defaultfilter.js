@@ -99,7 +99,7 @@ UE.plugins['defaultfilter'] = function () {
                             }
                         });
                         if (!node.firstChild()) {
-                            node.innerHTML(browser.ie ? '&nbsp;' : '<br/>')
+                            node.innerHTML('<br/>')
                         }
                         break;
                     case 'div':
@@ -153,7 +153,7 @@ UE.plugins['defaultfilter'] = function () {
                     case 'th':
                     case 'caption':
                         if(!node.children || !node.children.length){
-                            node.appendChild(browser.ie11below ? UE.uNode.createText(' ') : UE.uNode.createElement('br'))
+                            node.appendChild(UE.uNode.createElement('br'))
                         }
                         break;
                     case 'table':
