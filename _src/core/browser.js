@@ -71,7 +71,7 @@ var browser = UE.browser = function () {
 }();
 
 // 快捷方式
-var ie = browser.ie;
+var ie = false;
 var webkit = browser.webkit;
 var gecko = browser.gecko;
 
