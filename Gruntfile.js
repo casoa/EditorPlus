@@ -66,7 +66,6 @@ module.exports = function (grunt) {
           '_src/plugins/anchor.js',
           '_src/plugins/wordcount.js',
           '_src/plugins/pagebreak.js',
-          '_src/plugins/wordimage.js',
           '_src/plugins/dragdrop.js',
           '_src/plugins/undo.js',
           '_src/plugins/copy.js',

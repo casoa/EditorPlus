@@ -22,7 +22,7 @@ UE.I18N['en'] = {
         'justifyjustify':'Justify', 'forecolor':'FontColor', 'backcolor':'BackColor', 'insertorderedlist':'OL',
         'insertunorderedlist':'UL', 'fullscreen':'FullScreen', 'directionalityltr':'EnterFromLeft', 'directionalityrtl':'EnterFromRight',
         'rowspacingtop':'RowSpacingTop', 'rowspacingbottom':'RowSpacingBottom', 'pagebreak':'PageBreak', 'insertframe':'Iframe', 'imagenone':'Default',
-        'imageleft':'ImageLeft', 'imageright':'ImageRight', 'attachment':'Attachment', 'imagecenter':'ImageCenter', 'wordimage':'WordImage',
+        'imageleft':'ImageLeft', 'imageright':'ImageRight', 'attachment':'Attachment', 'imagecenter':'ImageCenter',
         'lineheight':'LineHeight','edittip':'EditTip','customstyle':'CustomStyle', 'scrawl':'Scrawl', 'autotypeset':'AutoTypeset',
         'webapp':'WebAPP', 'touppercase':'UpperCase', 'tolowercase':'LowerCase','template':'Template','background':'Background','inserttable':'InsertTable',
         'music':'Music', 'charts': 'charts','drafts': 'Load from Drafts'
@@ -645,37 +645,6 @@ UE.I18N['en'] = {
     },
     'formula':{
         'static':{
-        }
-    },
-    wordimage:{
-        'static':{
-            lang_resave:"The re-save step",
-            uploadBtn:{src:"upload.png", alt:"Upload"},
-            clipboard:{style:"background: url(copy.png) -153px -1px no-repeat;"},
-            lang_step:" 1. Click top button to copy the url and then open the dialog to paste it. 2. Open after choose photos uploaded process."
-        },
-        fileType:"Image",
-        flashError:"Flash initialization failed!",
-        netError:"Network error! Please try again!",
-        copySuccess:"URL has been copied!",
-
-        'flashI18n':{
-            lang:encodeURI( '{"UploadingState":"totalNum: ${a},uploadComplete: ${b}", "BeforeUpload":"waitingNum: ${a}", "ExceedSize":"Size exceed${a}", "ErrorInPreview":"Preview failed", "DefaultDescription":"Description", "LoadingImage":"Loading..."}' ),
-            uploadingTF:encodeURI( '{"font":"Arial", "size":12, "color":"0x000", "bold":"true", "italic":"false", "underline":"false"}' ),
-            imageTF:encodeURI( '{"font":"Arial", "size":11, "color":"red", "bold":"false", "italic":"false", "underline":"false"}' ),
-            textEncoding:"utf-8",
-            addImageSkinURL:"addImage.png",
-            allDeleteBtnUpSkinURL:"allDeleteBtnUpSkin.png",
-            allDeleteBtnHoverSkinURL:"allDeleteBtnHoverSkin.png",
-            rotateLeftBtnEnableSkinURL:"rotateLeftEnable.png",
-            rotateLeftBtnDisableSkinURL:"rotateLeftDisable.png",
-            rotateRightBtnEnableSkinURL:"rotateRightEnable.png",
-            rotateRightBtnDisableSkinURL:"rotateRightDisable.png",
-            deleteBtnEnableSkinURL:"deleteEnable.png",
-            deleteBtnDisableSkinURL:"deleteDisable.png",
-            backgroundURL:'',
-            listBackgroundURL:'',
-            buttonURL:'button.png'
         }
     },
     'autosave': {

@@ -43,7 +43,6 @@
         'help':'~/dialogs/help/help.html',
         'preview':'~/dialogs/preview/preview.html',
         'emotion':'~/dialogs/emotion/emotion.html',
-        'wordimage':'~/dialogs/wordimage/wordimage.html',
         'attachment':'~/dialogs/attachment/attachment.html',
         'insertframe':'~/dialogs/insertframe/insertframe.html',
         'edittip':'~/dialogs/table/edittip.html',
@@ -182,7 +181,7 @@
 
     var dialogBtns = {
         noOk:['searchreplace', 'help', 'spechars', 'webapp','preview'],
-        ok:['attachment', 'anchor', 'link', 'insertimage', 'map', 'gmap', 'insertframe', 'wordimage',
+        ok:['attachment', 'anchor', 'link', 'insertimage', 'map', 'gmap', 'insertframe',
             'insertvideo', 'insertframe', 'edittip', 'edittable', 'edittd', 'scrawl', 'template', 'music', 'background', 'charts']
     };
 
@@ -239,13 +238,6 @@
                             onclick:function () {
                                 if (dialog) {
                                     switch (cmd) {
-                                        case "wordimage":
-                                            var images = editor.execCommand("wordimage");
-                                            if (images && images.length) {
-                                                dialog.render();
-                                                dialog.open();
-                                            }
-                                            break;
                                         case "scrawl":
                                             if (editor.queryCommandState("scrawl") != -1) {
                                                 dialog.render();
