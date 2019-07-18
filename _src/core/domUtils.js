@@ -26,19 +26,7 @@ function getDomNode (node, start, ltr, startFromChild, fn, guard) {
   return tmpNode;
 }
 
-var attrFix = ie && browser.version < 9 ? {
-    tabindex: "tabIndex",
-    readonly: "readOnly",
-    "for": "htmlFor",
-    "class": "className",
-    maxlength: "maxLength",
-    cellspacing: "cellSpacing",
-    cellpadding: "cellPadding",
-    rowspan: "rowSpan",
-    colspan: "colSpan",
-    usemap: "useMap",
-    frameborder: "frameBorder"
-  } : {
+var attrFix = {
     tabindex: "tabIndex",
     readonly: "readOnly"
   },
@@ -64,8 +52,7 @@ var domUtils = dom.domUtils = {
   POSITION_PRECEDING: 4,
   POSITION_IS_CONTAINED: 8,
   POSITION_CONTAINS: 16,
-  //ie6使用其他的会有一段空白出现
-  fillChar: ie && browser.version == '6' ? '\ufeff' : '\u200B',
+  fillChar: '\u200B',
   //-------------------------Node部分--------------------------------
   keys: {
     /*Backspace*/ 8: 1, /*Delete*/ 46: 1,
@@ -831,7 +818,7 @@ var domUtils = dom.domUtils = {
     }
     var thisAttrs = nodeA.attributes,
       otherAttrs = nodeB.attributes;
-    if (!ie && thisAttrs.length != otherAttrs.length) {
+    if (thisAttrs.length != otherAttrs.length) {
       return false;
     }
     var attrA, attrB, al = 0, bl = 0;
@@ -846,31 +833,14 @@ var domUtils = dom.domUtils = {
           return false;
         }
       }
-      if (ie) {
-        if (attrA.specified) {
-          al++;
-          attrB = otherAttrs.getNamedItem(attrA.nodeName);
-        } else {
-          continue;
-        }
-      } else {
+
         attrB = nodeB.attributes[attrA.nodeName];
-      }
+
       if (!attrB.specified || attrA.nodeValue != attrB.nodeValue) {
         return false;
       }
     }
     // 有可能attrB的属性包含了attrA的属性之外还有自己的属性
-    if (ie) {
-      for (i = 0; attrB = otherAttrs[i++];) {
-        if (attrB.specified) {
-          bl++;
-        }
-      }
-      if (al != bl) {
-        return false;
-      }
-    }
     return true;
   },
 

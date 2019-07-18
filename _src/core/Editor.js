@@ -405,7 +405,7 @@
 
         container.style.zIndex = options.zIndex;
 
-        var html = (ie && browser.version < 9 ? '' : '<!DOCTYPE html>') +
+        var html = '<!DOCTYPE html>' +
           '<html xmlns=\'http://www.w3.org/1999/xhtml\' class=\'view\' ><head>' +
           '<style type=\'text/css\'>' +
           //设置四周的留边
@@ -418,7 +418,7 @@
           (options.iframeCssUrl ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'' + utils.unhtml(options.iframeCssUrl) + '\'/>' : '') +
           (options.initialStyle ? '<style>' + options.initialStyle + '</style>' : '') +
           '</head><body class=\'view\' ></body>' +
-          '<script type=\'text/javascript\' ' + (ie ? 'defer=\'defer\'' : '') + ' id=\'_initialScript\'>' +
+          '<script type=\'text/javascript\'  id=\'_initialScript\'>' +
           'setTimeout(function(){editor = window.parent.UE.instants[\'ueditorInstant' + me.uid + '\'];editor._setup(document);},0);' +
           'var _tmpScript = document.getElementById(\'_initialScript\');_tmpScript.parentNode.removeChild(_tmpScript);</script></html>';
         container.appendChild(domUtils.createElement(document, 'iframe', {
@@ -457,13 +457,9 @@
 
       var me = this,
         options = me.options;
-      if (ie) {
-        doc.body.disabled = true;
+
         doc.body.contentEditable = true;
-        doc.body.disabled = false;
-      } else {
-        doc.body.contentEditable = true;
-      }
+
       doc.body.spellcheck = false;
       me.document = doc;
       me.window = doc.defaultView || doc.parentWindow;
@@ -749,7 +745,7 @@
       me.fireEvent('getAllHtml', headHtml);
       return '<html><head>' + (me.options.charset ? '<meta http-equiv="Content-Type" content="text/html; charset=' + me.options.charset + '"/>' : '')
         + (headHtmlForIE9 || me.document.getElementsByTagName('head')[0].innerHTML) + headHtml.join('\n') + '</head>'
-        + '<body ' + (ie && browser.version < 9 ? 'class="view"' : '') + '>' + me.getContent(null, null, true) + '</body></html>';
+        + '<body>' + me.getContent(null, null, true) + '</body></html>';
     },
 
     /**
@@ -1281,7 +1277,7 @@
       function clear () {
         var me = this;
         if (me.document.getElementById('initContent')) {
-          me.body.innerHTML = '<p>' + (ie ? '' : '<br/>') + '</p>';
+          me.body.innerHTML = '<p><br/></p>';
           me.removeListener('firstBeforeExecCommand focus', clear);
           setTimeout(function () {
             me.focus();
