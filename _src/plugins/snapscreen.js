@@ -14,9 +14,6 @@ UE.plugin.register('snapscreen', function (){
             params = utils.serializeParam(me.queryCommandValue('serverparam')) || '';
 
         a.href = url;
-        if (browser.ie) {
-            a.href = a.href;
-        }
 
 
         search = a.search;

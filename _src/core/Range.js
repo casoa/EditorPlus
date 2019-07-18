@@ -1413,57 +1413,7 @@
      * @return { UE.dom.Range } 返回当前Range对象
      */
     //这里不区分ie9以上，trace:3824
-    select: browser.ie ? function (noFillData, textRange) {
-      var nativeRange;
-      if (!this.collapsed)
-        this.shrinkBoundary();
-      var node = this.getClosedNode();
-      if (node && !textRange) {
-        try {
-          nativeRange = this.document.body.createControlRange();
-          nativeRange.addElement(node);
-          nativeRange.select();
-        } catch (e) {
-        }
-        return this;
-      }
-      var bookmark = this.createBookmark(),
-        start = bookmark.start,
-        end;
-      nativeRange = this.document.body.createTextRange();
-      nativeRange.moveToElementText(start);
-      nativeRange.moveStart('character', 1);
-      if (!this.collapsed) {
-        var nativeRangeEnd = this.document.body.createTextRange();
-        end = bookmark.end;
-        nativeRangeEnd.moveToElementText(end);
-        nativeRange.setEndPoint('EndToEnd', nativeRangeEnd);
-      } else {
-        if (!noFillData && this.startContainer.nodeType != 3) {
-          //使用<span>|x<span>固定住光标
-          var tmpText = this.document.createTextNode(fillChar),
-            tmp = this.document.createElement('span');
-          tmp.appendChild(this.document.createTextNode(fillChar));
-          start.parentNode.insertBefore(tmp, start);
-          start.parentNode.insertBefore(tmpText, start);
-          //当点b,i,u时，不能清除i上边的b
-          removeFillData(this.document, tmpText);
-          fillData = tmpText;
-          mergeSibling(tmp, 'previousSibling');
-          mergeSibling(start, 'nextSibling');
-          nativeRange.moveStart('character', -1);
-          nativeRange.collapse(true);
-        }
-      }
-      this.moveToBookmark(bookmark);
-      tmp && domUtils.remove(tmp);
-      //IE在隐藏状态下不支持range操作，catch一下
-      try {
-        nativeRange.select();
-      } catch (e) {
-      }
-      return this;
-    } : function (notInsertFillData) {
+    select: function (notInsertFillData) {
       function checkOffset (rng) {
 
         function check (node, offset, dir) {

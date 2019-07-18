@@ -41,15 +41,15 @@ UE.UETable.prototype.sortTable = function (sortByCellIndex, compareFn) {
             return value2.localeCompare(value1);
         },
         'orderbynum': function(td1,td2){
-            var value1 = td1[browser.ie ? 'innerText':'textContent'].match(/\d+/),
-                value2 = td2[browser.ie ? 'innerText':'textContent'].match(/\d+/);
+            var value1 = td1['textContent'].match(/\d+/),
+                value2 = td2['textContent'].match(/\d+/);
             if(value1) value1 = +value1[0];
             if(value2) value2 = +value2[0];
             return (value1||0) - (value2||0);
         },
         'reversebynum': function(td1,td2){
-            var value1 = td1[browser.ie ? 'innerText':'textContent'].match(/\d+/),
-                value2 = td2[browser.ie ? 'innerText':'textContent'].match(/\d+/);
+            var value1 = td1['textContent'].match(/\d+/),
+                value2 = td2['textContent'].match(/\d+/);
             if(value1) value1 = +value1[0];
             if(value2) value2 = +value2[0];
             return (value2||0) - (value1||0);

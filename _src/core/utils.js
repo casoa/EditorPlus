@@ -868,29 +868,14 @@ var utils = UE.utils = {
         doReady(doc);
       } else {
         doc.isReady && doReady(doc);
-        if (browser.ie && browser.version != 11) {
-          (function () {
-            if (doc.isReady) return;
-            try {
-              doc.documentElement.doScroll("left");
-            } catch (error) {
-              setTimeout(arguments.callee, 0);
-              return;
-            }
-            doReady(doc);
-          })();
-          win.attachEvent('onload', function () {
-            doReady(doc)
-          });
-        } else {
-          doc.addEventListener("DOMContentLoaded", function () {
-            doc.removeEventListener("DOMContentLoaded", arguments.callee, false);
-            doReady(doc);
-          }, false);
-          win.addEventListener('load', function () {
-            doReady(doc)
-          }, false);
-        }
+
+        doc.addEventListener("DOMContentLoaded", function () {
+          doc.removeEventListener("DOMContentLoaded", arguments.callee, false);
+          doReady(doc);
+        }, false);
+        win.addEventListener('load', function () {
+          doReady(doc)
+        }, false);
       }
 
     }
@@ -906,40 +891,7 @@ var utils = UE.utils = {
    * @grammar UE.utils.cssRule('body',document) => 返回指定key的样式，并且指定是哪个document
    * @grammar UE.utils.cssRule('body','') =>null //清空给定的key值的背景颜色
    */
-  cssRule: browser.ie && browser.version != 11 ? function (key, style, doc) {
-    var indexList, index;
-    if (style === undefined || style && style.nodeType && style.nodeType == 9) {
-      //获取样式
-      doc = style && style.nodeType && style.nodeType == 9 ? style : (doc || document);
-      indexList = doc.indexList || (doc.indexList = {});
-      index = indexList[key];
-      if (index !== undefined) {
-        return doc.styleSheets[index].cssText
-      }
-      return undefined;
-    }
-    doc = doc || document;
-    indexList = doc.indexList || (doc.indexList = {});
-    index = indexList[key];
-    //清除样式
-    if (style === '') {
-      if (index !== undefined) {
-        doc.styleSheets[index].cssText = '';
-        delete indexList[key];
-        return true
-      }
-      return false;
-    }
-
-    //添加样式
-    if (index !== undefined) {
-      sheetStyle = doc.styleSheets[index];
-    } else {
-      sheetStyle = doc.createStyleSheet('', index = doc.styleSheets.length);
-      indexList[key] = index;
-    }
-    sheetStyle.cssText = style;
-  } : function (key, style, doc) {
+  cssRule: function (key, style, doc) {
     var head, node;
     if (style === undefined || style && style.nodeType && style.nodeType == 9) {
       //获取样式
@@ -1012,9 +964,6 @@ var utils = UE.utils = {
   isCrossDomainUrl: function (url) {
     var a = document.createElement('a');
     a.href = url;
-    if (browser.ie) {
-      a.href = a.href;
-    }
     return !(a.protocol == location.protocol && a.hostname == location.hostname &&
       (a.port == location.port || (a.port == '80' && location.port == '') || (a.port == '' && location.port == '80')));
   },

@@ -21,13 +21,7 @@
     //focus元素
     $focus = function ( node ) {
         setTimeout( function () {
-            if ( browser.ie ) {
-                var r = node.createTextRange();
-                r.collapse( false );
-                r.select();
-            } else {
-                node.focus()
-            }
+          node.focus()
         }, 0 )
     };
     utils.loadFile(document,{

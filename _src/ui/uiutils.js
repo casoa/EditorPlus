@@ -44,8 +44,7 @@
             return el;
         },
         getViewportElement: function (){
-            return (browser.ie && browser.quirks) ?
-                document.body : document.documentElement;
+            return document.documentElement;
         },
         getClientRect: function (element){
             var bcr;
@@ -130,7 +129,7 @@
             var k = attributes.length;
             while (k --) {
                 var attrNode = attributes[k];
-                if ( attrNode.nodeName != 'style' && attrNode.nodeName != 'class' && (!browser.ie || attrNode.specified) ) {
+                if ( attrNode.nodeName != 'style' && attrNode.nodeName != 'class' ) {
                     tgt.setAttribute(attrNode.nodeName, attrNode.nodeValue);
                 }
             }
@@ -203,13 +202,7 @@
                 layer = document.createElement('div');
                 layer.id = 'edui_fixedlayer';
                 document.body.appendChild(layer);
-                if (browser.ie && browser.version <= 8) {
-                    layer.style.position = 'absolute';
-                    bindFixedLayer();
-                    setTimeout(updateFixedOffset);
-                } else {
-                    layer.style.position = 'fixed';
-                }
+                layer.style.position = 'fixed';
                 layer.style.left = '0';
                 layer.style.top = '0';
                 layer.style.width = '0';
@@ -218,7 +211,7 @@
             return layer;
         },
         makeUnselectable: function (element){
-            if (browser.opera || (browser.ie && browser.version < 9)) {
+            if (browser.opera) {
                 element.unselectable = 'on';
                 if (element.hasChildNodes()) {
                     for (var i=0; i<element.childNodes.length; i++) {

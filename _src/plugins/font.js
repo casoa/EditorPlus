@@ -248,13 +248,6 @@ UE.plugins['font'] = function () {
 
 
             mergeWithParent(span);
-            if(browser.ie && browser.version > 8 ){
-                //拷贝父亲们的特别的属性,这里只做背景颜色的处理
-                var parent = domUtils.findParent(span,function(n){return n.tagName == 'SPAN' && /background-color/.test(n.style.cssText)});
-                if(parent && !/background-color/.test(span.style.cssText)){
-                    span.style.backgroundColor = parent.style.backgroundColor;
-                }
-            }
 
         });
         rng.moveToBookmark(bk);
@@ -389,7 +382,7 @@ UE.plugins['font'] = function () {
 
                             var span = domUtils.findParentByTagName(range.startContainer, 'span', true);
                             text = me.document.createTextNode('font');
-                            if (span && !span.children.length && !span[browser.ie ? 'innerText' : 'textContent'].replace(fillCharReg, '').length) {
+                            if (span && !span.children.length && !span['textContent'].replace(fillCharReg, '').length) {
                                 //for ie hack when enter
                                 range.insertNode(text);
                                 if (needCmd[cmd]) {
@@ -423,18 +416,15 @@ UE.plugins['font'] = function () {
 
 
                                 text.parentNode.insertBefore(span, text);
-                                //修复，span套span 但样式不继承的问题
-                                if (!browser.ie || browser.ie && browser.version == 9) {
-                                    var spanParent = span.parentNode;
-                                    while (!domUtils.isBlockElm(spanParent)) {
-                                        if (spanParent.tagName == 'SPAN') {
-                                            //opera合并style不会加入";"
-                                            span.style.cssText = spanParent.style.cssText + ";" + span.style.cssText;
-                                        }
-                                        spanParent = spanParent.parentNode;
-                                    }
+                                // 修复span套span 但样式不继承的问题
+                                var spanParent = span.parentNode;
+                                while (!domUtils.isBlockElm(spanParent)) {
+                                  if (spanParent.tagName == 'SPAN') {
+                                    //opera合并style不会加入";"
+                                    span.style.cssText = spanParent.style.cssText + ";" + span.style.cssText;
+                                  }
+                                  spanParent = spanParent.parentNode;
                                 }
-
 
                                 if (opera) {
                                     setTimeout(function () {

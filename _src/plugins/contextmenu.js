@@ -467,18 +467,6 @@ UE.plugins['contextmenu'] = function () {
         me.fireEvent("aftershowcontextmenu",menu);
 
         domUtils.preventDefault( evt );
-        if ( browser.ie ) {
-            var ieRange;
-            try {
-                ieRange = me.selection.getNative().createRange();
-            } catch ( e ) {
-                return;
-            }
-            if ( ieRange.item ) {
-                var range = new dom.Range( me.document );
-                range.selectNode( ieRange.item( 0 ) ).select( true, true );
-            }
-        }
     });
 
     // 添加复制的flash按钮

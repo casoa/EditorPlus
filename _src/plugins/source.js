@@ -9,15 +9,6 @@
         textarea: function (editor, holder){
             var textarea = holder.ownerDocument.createElement('textarea');
             textarea.style.cssText = 'position:absolute;resize:none;width:100%;height:100%;border:0;padding:0;margin:0;overflow-y:auto;';
-            // todo: IE下只有onresize属性可用... 很纠结
-            if (browser.ie && browser.version < 8) {
-                textarea.style.width = holder.offsetWidth + 'px';
-                textarea.style.height = holder.offsetHeight + 'px';
-                holder.onresize = function (){
-                    textarea.style.width = holder.offsetWidth + 'px';
-                    textarea.style.height = holder.offsetHeight + 'px';
-                };
-            }
             holder.appendChild(textarea);
             return {
                 setContent: function (content){
@@ -28,15 +19,9 @@
                 },
                 select: function (){
                     var range;
-                    if (browser.ie) {
-                        range = textarea.createTextRange();
-                        range.collapse(true);
-                        range.select();
-                    } else {
-                        //todo: chrome下无法设置焦点
-                        textarea.setSelectionRange(0, 0);
-                        textarea.focus();
-                    }
+                    //todo: chrome下无法设置焦点
+                    textarea.setSelectionRange(0, 0);
+                    textarea.focus();
                 },
                 dispose: function (){
                     holder.removeChild(textarea);
@@ -87,7 +72,7 @@
         var sourceMode = false;
         var sourceEditor;
         var orgSetContent;
-        opt.sourceEditor = browser.ie  ? 'textarea' : (opt.sourceEditor || 'codemirror');
+        opt.sourceEditor = (opt.sourceEditor || 'codemirror');
 
         me.setOpt({
             sourceEditorFirst:false
@@ -191,11 +176,11 @@
                     //重置getContent，源码模式下取值也能是最新的数据
                     oldGetContent = me.getContent;
                     me.getContent = function (){
-                        return sourceEditor.getContent() || '<p>' + (browser.ie ? '' : '<br/>')+'</p>';
+                        return sourceEditor.getContent() || '<p><br/></p>';
                     };
                 } else {
                     me.iframe.style.cssText = bakCssText;
-                    var cont = sourceEditor.getContent() || '<p>' + (browser.ie ? '' : '<br/>')+'</p>';
+                    var cont = sourceEditor.getContent() || '<p><br/></p>';
                     //处理掉block节点前后的空格,有可能会误命中，暂时不考虑
                     cont = cont.replace(new RegExp('[\\r\\t\\n ]*<\/?(\\w+)\\s*(?:[^>]*)>','g'), function(a,b){
                         if(b && !dtd.$inlineWithA[b.toLowerCase()]){
@@ -214,7 +199,7 @@
                     var first = me.body.firstChild;
                     //trace:1106 都删除空了，下边会报错，所以补充一个p占位
                     if(!first){
-                        me.body.innerHTML = '<p>'+(browser.ie?'':'<br/>')+'</p>';
+                        me.body.innerHTML = '<p><br/></p>';
                         first = me.body.firstChild;
                     }
 

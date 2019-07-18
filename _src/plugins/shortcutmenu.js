@@ -51,19 +51,6 @@ UE.plugins['shortcutmenu'] = function () {
 
         if (type == 'contextmenu') {
             domUtils.preventDefault (e);
-            if (browser.ie9below) {
-                var ieRange;
-                try {
-                    ieRange = me.selection.getNative().createRange();
-                } catch (e) {
-                    return;
-                }
-                if (ieRange.item) {
-                    var range = new dom.Range (me.document);
-                    range.selectNode (ieRange.item (0)).select (true , true);
-
-                }
-            }
         }
     });
 

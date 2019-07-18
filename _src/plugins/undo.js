@@ -100,13 +100,6 @@ UE.plugins['undo'] = function () {
             me.document.body.innerHTML = root.toHtml();
             me.fireEvent('afterscencerestore');
             //处理undo后空格不展位的问题
-            if (browser.ie) {
-                utils.each(domUtils.getElementsByTagName(me.document,'td th caption p'),function(node){
-                    if(domUtils.isEmptyNode(node)){
-                        domUtils.fillNode(me.document, node);
-                    }
-                })
-            }
 
             try{
                 var rng = new dom.Range(me.document).moveToAddress(scene.address);
@@ -129,9 +122,6 @@ UE.plugins['undo'] = function () {
             me.filterOutputRule(root);
             me.options.autoClearEmptyNode = orgState;
             var cont = root.toHtml();
-            //trace:3461
-            //这个会引起回退时导致空格丢失的情况
-//            browser.ie && (cont = cont.replace(/>&nbsp;</g, '><').replace(/\s*</g, '<').replace(/>\s*/g, '>'));
             me.fireEvent('aftergetscene');
 
             return {

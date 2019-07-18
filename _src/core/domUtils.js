@@ -643,17 +643,7 @@ var domUtils = dom.domUtils = {
    */
   split: function (node, offset) {
     var doc = node.ownerDocument;
-    if (browser.ie && offset == node.nodeValue.length) {
-      var next = doc.createTextNode('');
-      return domUtils.insertAfter(node, next);
-    }
     var retval = node.splitText(offset);
-    //ie8下splitText不会跟新childNodes,我们手动触发他的更新
-    if (browser.ie8) {
-      var tmpNode = doc.createTextNode('');
-      domUtils.insertAfter(retval, tmpNode);
-      domUtils.remove(tmpNode);
-    }
     return retval;
   },
 
@@ -1330,7 +1320,7 @@ var domUtils = dom.domUtils = {
    * UE.dom.domUtils.unSelectable( document.body );
    * ```
    */
-  unSelectable: ie && browser.ie9below || browser.opera ? function (node) {
+  unSelectable: browser.opera ? function (node) {
     //for ie9
     node.onselectstart = function () {
       return false;
@@ -1412,7 +1402,7 @@ var domUtils = dom.domUtils = {
         case 'style':
           node.style.cssText = '';
           var val = node.getAttributeNode('style');
-          !browser.ie && val && node.removeAttributeNode(val);
+          val && node.removeAttributeNode(val);
       }
       node.removeAttribute(ci);
     }
@@ -1523,18 +1513,6 @@ var domUtils = dom.domUtils = {
     //忽略文本节点
     if (element.nodeType == 3) {
       element = element.parentNode;
-    }
-    //ie下font-size若body下定义了font-size，则从currentStyle里会取到这个font-size. 取不到实际值，故此修改.
-    if (browser.ie && browser.version < 9 && styleName == 'font-size' && !element.style.fontSize &&
-      !dtd.$empty[element.tagName] && !dtd.$nonChild[element.tagName]) {
-      var span = element.ownerDocument.createElement('span');
-      span.style.cssText = 'padding:0;border:0;font-family:simsun;';
-      span.innerHTML = '.';
-      element.appendChild(span);
-      var result = span.offsetHeight;
-      element.removeChild(span);
-      span = null;
-      return result + 'px';
     }
     try {
       var value = domUtils.getStyle(element, styleName) ||
@@ -1743,20 +1721,11 @@ var domUtils = dom.domUtils = {
    * ```
    */
   removeStyle: function (element, name) {
-    if (browser.ie) {
-      //针对color先单独处理一下
-      if (name == 'color') {
-        name = '(^|;)' + name;
-      }
-      element.style.cssText = element.style.cssText.replace(new RegExp(name + '[^:]*:[^;]+;?', 'ig'), '')
+    if (element.style.removeProperty) {
+      element.style.removeProperty(name);
     } else {
-      if (element.style.removeProperty) {
-        element.style.removeProperty(name);
-      } else {
-        element.style.removeAttribute(utils.cssStyleToDomStyle(name));
-      }
+      element.style.removeAttribute(utils.cssStyleToDomStyle(name));
     }
-
 
     if (!element.style.cssText) {
       domUtils.removeAttributes(element, ['style']);
@@ -2090,7 +2059,7 @@ var domUtils = dom.domUtils = {
       return 0;
     reg = reg || new RegExp('[ \xa0\t\r\n' + domUtils.fillChar + ']', 'g');
 
-    if (node[browser.ie ? 'innerText' : 'textContent'].replace(reg, '').length > 0) {
+    if (node['textContent'].replace(reg, '').length > 0) {
       return 0;
     }
     for (var n in dtd.$isNotEmpty) {
@@ -2166,7 +2135,7 @@ var domUtils = dom.domUtils = {
    * ```
    */
   fillNode: function (doc, node) {
-    var tmpNode = browser.ie ? doc.createTextNode(domUtils.fillChar) : doc.createElement('br');
+    var tmpNode = doc.createElement('br');
     node.innerHTML = '';
     node.appendChild(tmpNode);
   },
@@ -2265,7 +2234,7 @@ var domUtils = dom.domUtils = {
    * ```
    */
   hasNoAttributes: function (node) {
-    return browser.ie ? /^<\w+\s*?>/.test(node.outerHTML) : node.attributes.length == 0;
+    return node.attributes.length === 0;
   },
 
   /**
@@ -2417,6 +2386,6 @@ var domUtils = dom.domUtils = {
     }
     return true;
   },
-  fillHtml: browser.ie11below ? '&nbsp;' : '<br/>'
+  fillHtml: '<br/>'
 };
 var fillCharReg = new RegExp(domUtils.fillChar, 'g');

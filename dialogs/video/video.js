@@ -250,15 +250,9 @@
      * @param url
      */
     function addUrlChangeListener(url){
-        if (browser.ie) {
-            url.onpropertychange = function () {
-                createPreviewVideo( this.value );
-            }
-        } else {
             url.addEventListener( "input", function () {
                 createPreviewVideo( this.value );
             }, false );
-        }
     }
 
     /**
@@ -453,11 +447,9 @@
                         $wrap.empty().addClass('notimage').append('<i class="file-preview file-type-' + file.ext.toLowerCase() + '"></i>' +
                             '<span class="file-title">' + file.name + '</span>');
                     } else {
-                        if (browser.ie && browser.version <= 7) {
-                            $wrap.text(lang.uploadNoPreview);
-                        } else {
+
                             uploader.makeThumb(file, function (error, src) {
-                                if (error || !src || (/^data:/.test(src) && browser.ie && browser.version <= 7)) {
+                                if (error || !src) {
                                     $wrap.text(lang.uploadNoPreview);
                                 } else {
                                     var $img = $('<img src="' + src + '">');
@@ -467,7 +459,7 @@
                                     });
                                 }
                             }, thumbnailWidth, thumbnailHeight);
-                        }
+
                     }
                     percentages[ file.id ] = [ file.size, 0 ];
                     file.rotation = 0;

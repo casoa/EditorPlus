@@ -71,79 +71,20 @@ UE.plugins['insertcode'] = function() {
             }else{
                 var code = '';
                 if(rng.collapsed){
-                    code = browser.ie && browser.ie11below ? (browser.version <= 8 ? '&nbsp;':''):'<br/>';
+                    code = '<br/>';
                 }else{
                     var frag = rng.extractContents();
                     var div = me.document.createElement('div');
                     div.appendChild(frag);
 
                     utils.each(UE.filterNode(UE.htmlparser(div.innerHTML.replace(/[\r\t]/g,'')),me.options.filterTxtRules).children,function(node){
-                        if(browser.ie && browser.ie11below && browser.version > 8){
 
-                            if(node.type =='element'){
-                                if(node.tagName == 'br'){
-                                    code += '\n'
-                                }else if(!dtd.$empty[node.tagName]){
-                                    utils.each(node.children,function(cn){
-                                        if(cn.type =='element'){
-                                            if(cn.tagName == 'br'){
-                                                code += '\n'
-                                            }else if(!dtd.$empty[node.tagName]){
-                                                code += cn.innerText();
-                                            }
-                                        }else{
-                                            code += cn.data
-                                        }
-                                    })
-                                    if(!/\n$/.test(code)){
-                                        code += '\n';
-                                    }
-                                }
-                            }else{
-                                code += node.data + '\n'
-                            }
-                            if(!node.nextSibling() && /\n$/.test(code)){
-                                code = code.replace(/\n$/,'');
-                            }
-                        }else{
-                            if(browser.ie && browser.ie11below){
-
-                                if(node.type =='element'){
-                                    if(node.tagName == 'br'){
-                                        code += '<br>'
-                                    }else if(!dtd.$empty[node.tagName]){
-                                        utils.each(node.children,function(cn){
-                                            if(cn.type =='element'){
-                                                if(cn.tagName == 'br'){
-                                                    code += '<br>'
-                                                }else if(!dtd.$empty[node.tagName]){
-                                                    code += cn.innerText();
-                                                }
-                                            }else{
-                                                code += cn.data
-                                            }
-                                        });
-                                        if(!/br>$/.test(code)){
-                                            code += '<br>';
-                                        }
-                                    }
-                                }else{
-                                    code += node.data + '<br>'
-                                }
-                                if(!node.nextSibling() && /<br>$/.test(code)){
-                                    code = code.replace(/<br>$/,'');
-                                }
-
-                            }else{
-                                code += (node.type == 'element' ? (dtd.$empty[node.tagName] ?  '' : node.innerText()) : node.data);
-                                if(!/br\/?\s*>$/.test(code)){
-                                    if(!node.nextSibling())
-                                        return;
-                                    code += '<br>'
-                                }
-                            }
-
-                        }
+                      code += (node.type == 'element' ? (dtd.$empty[node.tagName] ?  '' : node.innerText()) : node.data);
+                      if(!/br\/?\s*>$/.test(code)){
+                        if(!node.nextSibling())
+                          return;
+                        code += '<br>'
+                      }
 
                     });
                 }
@@ -186,15 +127,8 @@ UE.plugins['insertcode'] = function() {
        utils.each(root.getNodesByTagName('pre'),function(pre){
            var brs = pre.getNodesByTagName('br');
            if(brs.length){
-               browser.ie && browser.ie11below && browser.version > 8 && utils.each(brs,function(br){
-                   var txt = UE.uNode.createText('\n');
-                   br.parentNode.insertBefore(txt,br);
-                   br.parentNode.removeChild(br);
-               });
                return;
             }
-           if(browser.ie && browser.ie11below && browser.version > 8)
-                return;
             var code = pre.innerText().split(/\n/);
             pre.innerHTML('');
             utils.each(code,function(c){
@@ -261,108 +195,48 @@ UE.plugins['insertcode'] = function() {
             if(!rng.collapsed){
                rng.deleteContents();
             }
-            if(!browser.ie || browser.ie9above){
-                var tmpNode = me.document.createElement('br'),pre;
-                rng.insertNode(tmpNode).setStartAfter(tmpNode).collapse(true);
-                var next = tmpNode.nextSibling;
-                if(!next && (!browser.ie || browser.version > 10)){
-                    rng.insertNode(tmpNode.cloneNode(false));
-                }else{
-                    rng.setStartAfter(tmpNode);
-                }
-                pre = tmpNode.previousSibling;
-                var tmp;
-                while(pre ){
-                    tmp = pre;
-                    pre = pre.previousSibling;
-                    if(!pre || pre.nodeName == 'BR'){
-                        pre = tmp;
-                        break;
-                    }
-                }
-                if(pre){
-                    var str = '';
-                    while(pre && pre.nodeName != 'BR' &&  new RegExp('^[\\s'+domUtils.fillChar+']*$').test(pre.nodeValue)){
-                        str += pre.nodeValue;
-                        pre = pre.nextSibling;
-                    }
-                    if(pre.nodeName != 'BR'){
-                        var match = pre.nodeValue.match(new RegExp('^([\\s'+domUtils.fillChar+']+)'));
-                        if(match && match[1]){
-                            str += match[1]
-                        }
 
-                    }
-                    if(str){
-                        str = me.document.createTextNode(str);
-                        rng.insertNode(str).setStartAfter(str);
-                    }
-                }
-                rng.collapse(true).select(true);
+            var tmpNode = me.document.createElement('br'),pre;
+            rng.insertNode(tmpNode).setStartAfter(tmpNode).collapse(true);
+            var next = tmpNode.nextSibling;
+            if(!next){
+              rng.insertNode(tmpNode.cloneNode(false));
             }else{
-                if(browser.version > 8){
-
-                    var txt = me.document.createTextNode('\n');
-                    var start = rng.startContainer;
-                    if(rng.startOffset == 0){
-                        var preNode = start.previousSibling;
-                        if(preNode){
-                            rng.insertNode(txt);
-                            var fillchar = me.document.createTextNode(' ');
-                            rng.setStartAfter(txt).insertNode(fillchar).setStart(fillchar,0).collapse(true).select(true)
-                        }
-                    }else{
-                        rng.insertNode(txt).setStartAfter(txt);
-                        var fillchar = me.document.createTextNode(' ');
-                        start = rng.startContainer.childNodes[rng.startOffset];
-                        if(start && !/^\n/.test(start.nodeValue)){
-                            rng.setStartBefore(txt)
-                        }
-                        rng.insertNode(fillchar).setStart(fillchar,0).collapse(true).select(true)
-                    }
-
-                }else{
-                    var tmpNode = me.document.createElement('br');
-                    rng.insertNode(tmpNode);
-                    rng.insertNode(me.document.createTextNode(domUtils.fillChar));
-                    rng.setStartAfter(tmpNode);
-                    pre = tmpNode.previousSibling;
-                    var tmp;
-                    while(pre ){
-                        tmp = pre;
-                        pre = pre.previousSibling;
-                        if(!pre || pre.nodeName == 'BR'){
-                            pre = tmp;
-                            break;
-                        }
-                    }
-                    if(pre){
-                        var str = '';
-                        while(pre && pre.nodeName != 'BR' &&  new RegExp('^[ '+domUtils.fillChar+']*$').test(pre.nodeValue)){
-                            str += pre.nodeValue;
-                            pre = pre.nextSibling;
-                        }
-                        if(pre.nodeName != 'BR'){
-                            var match = pre.nodeValue.match(new RegExp('^([ '+domUtils.fillChar+']+)'));
-                            if(match && match[1]){
-                                str += match[1]
-                            }
-
-                        }
-
-                        str = me.document.createTextNode(str);
-                        rng.insertNode(str).setStartAfter(str);
-                    }
-                    rng.collapse(true).select();
+              rng.setStartAfter(tmpNode);
+            }
+            pre = tmpNode.previousSibling;
+            var tmp;
+            while(pre ){
+              tmp = pre;
+              pre = pre.previousSibling;
+              if(!pre || pre.nodeName == 'BR'){
+                pre = tmp;
+                break;
+              }
+            }
+            if(pre){
+              var str = '';
+              while(pre && pre.nodeName != 'BR' &&  new RegExp('^[\\s'+domUtils.fillChar+']*$').test(pre.nodeValue)){
+                str += pre.nodeValue;
+                pre = pre.nextSibling;
+              }
+              if(pre.nodeName != 'BR'){
+                var match = pre.nodeValue.match(new RegExp('^([\\s'+domUtils.fillChar+']+)'));
+                if(match && match[1]){
+                  str += match[1]
                 }
 
-
+              }
+              if(str){
+                str = me.document.createTextNode(str);
+                rng.insertNode(str).setStartAfter(str);
+              }
             }
+            rng.collapse(true).select(true);
+
             me.fireEvent('saveScene');
             return true;
         }
-
-
     });
 
     me.addListener('tabkeydown',function(cmd,evt){
@@ -431,77 +305,45 @@ UE.plugins['insertcode'] = function() {
                 rng.deleteContents()
             }
             var htmlstr = '';
-            if(browser.ie && browser.version > 8){
 
-                utils.each(UE.filterNode(UE.htmlparser(html),me.options.filterTxtRules).children,function(node){
-                    if(node.type =='element'){
-                        if(node.tagName == 'br'){
-                            htmlstr += '\n'
-                        }else if(!dtd.$empty[node.tagName]){
-                            utils.each(node.children,function(cn){
-                                if(cn.type =='element'){
-                                    if(cn.tagName == 'br'){
-                                        htmlstr += '\n'
-                                    }else if(!dtd.$empty[node.tagName]){
-                                        htmlstr += cn.innerText();
-                                    }
-                                }else{
-                                    htmlstr += cn.data
-                                }
-                            })
-                            if(!/\n$/.test(htmlstr)){
-                                htmlstr += '\n';
-                            }
-                        }
-                    }else{
-                        htmlstr += node.data + '\n'
+          var frag = me.document.createDocumentFragment();
+
+          utils.each(UE.filterNode(UE.htmlparser(html),me.options.filterTxtRules).children,function(node){
+            if(node.type =='element'){
+              if(node.tagName == 'br'){
+                frag.appendChild(me.document.createElement('br'))
+              }else if(!dtd.$empty[node.tagName]){
+                utils.each(node.children,function(cn){
+                  if(cn.type =='element'){
+                    if(cn.tagName == 'br'){
+
+                      frag.appendChild(me.document.createElement('br'))
+                    }else if(!dtd.$empty[node.tagName]){
+                      frag.appendChild(me.document.createTextNode(utils.html(cn.innerText().replace(/&nbsp;/g,' '))));
+
                     }
-                    if(!node.nextSibling() && /\n$/.test(htmlstr)){
-                        htmlstr = htmlstr.replace(/\n$/,'');
-                    }
-                });
-                var tmpNode = me.document.createTextNode(utils.html(htmlstr.replace(/&nbsp;/g,' ')));
-                rng.insertNode(tmpNode).selectNode(tmpNode).select();
+                  }else{
+                    frag.appendChild(me.document.createTextNode(utils.html( cn.data.replace(/&nbsp;/g,' '))));
+
+                  }
+                })
+                if(frag.lastChild.nodeName != 'BR'){
+                  frag.appendChild(me.document.createElement('br'))
+                }
+              }
             }else{
-                var frag = me.document.createDocumentFragment();
-
-                utils.each(UE.filterNode(UE.htmlparser(html),me.options.filterTxtRules).children,function(node){
-                    if(node.type =='element'){
-                        if(node.tagName == 'br'){
-                            frag.appendChild(me.document.createElement('br'))
-                        }else if(!dtd.$empty[node.tagName]){
-                            utils.each(node.children,function(cn){
-                                if(cn.type =='element'){
-                                    if(cn.tagName == 'br'){
-
-                                        frag.appendChild(me.document.createElement('br'))
-                                    }else if(!dtd.$empty[node.tagName]){
-                                        frag.appendChild(me.document.createTextNode(utils.html(cn.innerText().replace(/&nbsp;/g,' '))));
-
-                                    }
-                                }else{
-                                    frag.appendChild(me.document.createTextNode(utils.html( cn.data.replace(/&nbsp;/g,' '))));
-
-                                }
-                            })
-                            if(frag.lastChild.nodeName != 'BR'){
-                                frag.appendChild(me.document.createElement('br'))
-                            }
-                        }
-                    }else{
-                        frag.appendChild(me.document.createTextNode(utils.html( node.data.replace(/&nbsp;/g,' '))));
-                    }
-                    if(!node.nextSibling() && frag.lastChild.nodeName == 'BR'){
-                       frag.removeChild(frag.lastChild)
-                    }
-
-
-                });
-                rng.insertNode(frag).select();
-
+              frag.appendChild(me.document.createTextNode(utils.html( node.data.replace(/&nbsp;/g,' '))));
+            }
+            if(!node.nextSibling() && frag.lastChild.nodeName == 'BR'){
+              frag.removeChild(frag.lastChild)
             }
 
-            return true;
+
+          });
+          rng.insertNode(frag).select();
+
+
+          return true;
         }
     });
     //方向键的处理
