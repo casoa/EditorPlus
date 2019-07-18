@@ -22,7 +22,7 @@ UE.I18N['zh-cn'] = {
         'justifyjustify':'两端对齐', 'forecolor':'字体颜色', 'backcolor':'背景色', 'insertorderedlist':'有序列表',
         'insertunorderedlist':'无序列表', 'fullscreen':'全屏', 'directionalityltr':'从左向右输入', 'directionalityrtl':'从右向左输入',
         'rowspacingtop':'段前距', 'rowspacingbottom':'段后距',  'pagebreak':'分页', 'insertframe':'插入Iframe', 'imagenone':'默认',
-        'imageleft':'左浮动', 'imageright':'右浮动', 'attachment':'附件', 'imagecenter':'居中', 'wordimage':'图片转存',
+        'imageleft':'左浮动', 'imageright':'右浮动', 'attachment':'附件', 'imagecenter':'居中',
         'lineheight':'行间距','edittip' :'编辑提示','customstyle':'自定义标题', 'autotypeset':'自动排版',
         'webapp':'百度应用','touppercase':'字母大写', 'tolowercase':'字母小写','background':'背景','template':'模板','scrawl':'涂鸦',
         'music':'音乐','inserttable':'插入表格','drafts': '从草稿箱加载', 'charts': '图表'
@@ -648,19 +648,6 @@ UE.I18N['zh-cn'] = {
     'formula':{
         'static':{
         }
-    },
-    'wordimage':{
-        'static':{
-            lang_resave:"转存步骤",
-            uploadBtn:{src:"upload.png",alt:"上传"},
-            clipboard:{style:"background: url(copy.png) -153px -1px no-repeat;"},
-            lang_step:"1、点击顶部复制按钮，将地址复制到剪贴板；2、点击添加照片按钮，在弹出的对话框中使用Ctrl+V粘贴地址；3、点击打开后选择图片上传流程。"
-        },
-        'fileType':"图片",
-        'flashError':"FLASH初始化失败，请检查FLASH插件是否正确安装！",
-        'netError':"网络连接错误，请重试！",
-        'copySuccess':"图片地址已经复制！",
-        'flashI18n':{} //留空默认中文
     },
     'autosave': {
         'saving':'保存中...',

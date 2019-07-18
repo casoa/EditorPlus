@@ -211,13 +211,6 @@
     overflow: hidden;
 }
 
-/*wordImage-dialog*/
-.edui-default .edui-for-wordimage .edui-dialog-content {
-    width: 620px;
-    height: 380px;
-    overflow: hidden;
-}
-
 /*attachment-dialog*/
 .edui-default .edui-for-attachment .edui-dialog-content {
     width: 650px;
