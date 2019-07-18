@@ -102,7 +102,7 @@ UE.parse.register('charts',function( utils ){
         if ( !window.jQuery ) {
 
             utils.loadFile(document,{
-                src : resourceRoot + "/third-party/jquery-1.10.2.min.js",
+                src : 'https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.js',
                 tag : "script",
                 type : "text/javascript",
                 defer : "defer"
