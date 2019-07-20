@@ -873,21 +873,6 @@ var domUtils = dom.domUtils = {
   isSameStyle: function (nodeA, nodeB) {
     var styleA = nodeA.style.cssText.replace(/( ?; ?)/g, ';').replace(/( ?: ?)/g, ':'),
       styleB = nodeB.style.cssText.replace(/( ?; ?)/g, ';').replace(/( ?: ?)/g, ':');
-    if (browser.opera) {
-      styleA = nodeA.style;
-      styleB = nodeB.style;
-      if (styleA.length != styleB.length)
-        return false;
-      for (var p in styleA) {
-        if (/^(\d+|csstext)$/i.test(p)) {
-          continue;
-        }
-        if (styleA[p] != styleB[p]) {
-          return false;
-        }
-      }
-      return true;
-    }
     if (!styleA || !styleB) {
       return styleA == styleB;
     }
@@ -1290,29 +1275,7 @@ var domUtils = dom.domUtils = {
    * UE.dom.domUtils.unSelectable( document.body );
    * ```
    */
-  unSelectable: browser.opera ? function (node) {
-    //for ie9
-    node.onselectstart = function () {
-      return false;
-    };
-    node.onclick = node.onkeyup = node.onkeydown = function () {
-      return false;
-    };
-    node.unselectable = 'on';
-    node.setAttribute("unselectable", "on");
-    for (var i = 0, ci; ci = node.all[i++];) {
-      switch (ci.tagName.toLowerCase()) {
-        case 'iframe' :
-        case 'textarea' :
-        case 'input' :
-        case 'select' :
-          break;
-        default :
-          ci.unselectable = 'on';
-          node.setAttribute("unselectable", "on");
-      }
-    }
-  } : function (node) {
+  unSelectable: function (node) {
     node.style.MozUserSelect =
       node.style.webkitUserSelect =
         node.style.msUserSelect =
