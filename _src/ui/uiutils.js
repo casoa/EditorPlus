@@ -211,16 +211,6 @@
             return layer;
         },
         makeUnselectable: function (element){
-            if (browser.opera) {
-                element.unselectable = 'on';
-                if (element.hasChildNodes()) {
-                    for (var i=0; i<element.childNodes.length; i++) {
-                        if (element.childNodes[i].nodeType == 1) {
-                            uiUtils.makeUnselectable(element.childNodes[i]);
-                        }
-                    }
-                }
-            } else {
                 if (element.style.MozUserSelect !== undefined) {
                     element.style.MozUserSelect = 'none';
                 } else if (element.style.WebkitUserSelect !== undefined) {
@@ -228,7 +218,6 @@
                 } else if (element.style.KhtmlUserSelect !== undefined) {
                     element.style.KhtmlUserSelect = 'none';
                 }
-            }
         }
     };
     function updateFixedOffset(){

@@ -419,24 +419,16 @@ UE.plugins['font'] = function () {
                                 // 修复span套span 但样式不继承的问题
                                 var spanParent = span.parentNode;
                                 while (!domUtils.isBlockElm(spanParent)) {
-                                  if (spanParent.tagName == 'SPAN') {
-                                    //opera合并style不会加入";"
+                                  if (spanParent.tagName === 'SPAN') {
+                                    // 合并style加入";"
                                     span.style.cssText = spanParent.style.cssText + ";" + span.style.cssText;
                                   }
                                   spanParent = spanParent.parentNode;
                                 }
 
-                                if (opera) {
-                                    setTimeout(function () {
-                                        range.setStart(span, 0).collapse(true);
-                                        mergesibling(range, cmdName,value);
-                                        range.select();
-                                    });
-                                } else {
                                     range.setStart(span, 0).collapse(true);
                                     mergesibling(range,cmdName,value);
                                     range.select();
-                                }
 
                                 //trace:981
                                 //domUtils.mergeToParent(span)
