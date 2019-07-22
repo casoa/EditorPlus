@@ -94,7 +94,6 @@ module.exports = function (grunt) {
           '_src/plugins/catchremoteimage.js',
           '_src/plugins/snapscreen.js',
           '_src/plugins/insertparagraph.js',
-          '_src/plugins/webapp.js',
           '_src/plugins/template.js',
           '_src/plugins/music.js',
           '_src/plugins/autoupload.js',

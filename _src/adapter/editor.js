@@ -253,9 +253,6 @@
                         if (img.className.indexOf("edui-faked-video") != -1 || img.className.indexOf("edui-upload-video") != -1) {
                             dialogName = "insertvideoDialog"
                         }
-                        if (img.className.indexOf("edui-faked-webapp") != -1) {
-                            dialogName = "webappDialog"
-                        }
                         if (img.src.indexOf("http://api.map.baidu.com") != -1) {
                             dialogName = "mapDialog"
                         }
