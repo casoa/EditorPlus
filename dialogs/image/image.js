@@ -372,7 +372,7 @@
                     extensions: acceptExtensions,
                     mimeTypes: 'image/*'
                 },
-                swf: '../../third-party/webuploader/Uploader.swf',
+                swf: 'https://cdn.jsdelivr.net/npm/editorplus-thirdparty@2.0.0/webuploader/Uploader.swf',
                 server: actionUrl,
                 fileVal: editor.getOpt('imageFieldName'),
                 duplicate: true,

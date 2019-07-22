@@ -214,8 +214,7 @@ module.exports = function (grunt) {
               'themes/default/dialogbase.css',
               'themes/default/images/**',
               'dialogs/**',
-              'lang/**',
-              'third-party/**'
+              'lang/**'
             ],
             dest: releasedir
           }

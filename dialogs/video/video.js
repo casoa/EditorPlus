@@ -385,7 +385,7 @@
                     id: '#filePickerReady',
                     label: lang.uploadSelectFile
                 },
-                swf: '../../third-party/webuploader/Uploader.swf',
+                swf: 'https://cdn.jsdelivr.net/npm/editorplus-thirdparty@2.0.0/webuploader/Uploader.swf',
                 server: actionUrl,
                 fileVal: editor.getOpt('videoFieldName'),
                 duplicate: true,

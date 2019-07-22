@@ -259,7 +259,7 @@
 
             me.addListener("ready",function(){
                 utils.loadFile(document,{
-                    src : opt.codeMirrorJsUrl || opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.js",
+                    src : opt.codeMirrorJsUrl || "https://cdn.jsdelivr.net/npm/editorplus-thirdparty@2.0.0/codemirror/codemirror.js",
                     tag : "script",
                     type : "text/javascript",
                     defer : "defer"
@@ -274,7 +274,7 @@
                     tag : "link",
                     rel : "stylesheet",
                     type : "text/css",
-                    href : opt.codeMirrorCssUrl || opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.css"
+                    href : opt.codeMirrorCssUrl || "https://cdn.jsdelivr.net/npm/editorplus-thirdparty@2.0.0/codemirror/codemirror.css"
                 });
 
             });

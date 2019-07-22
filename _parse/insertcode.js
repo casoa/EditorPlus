@@ -4,8 +4,8 @@ UE.parse.register('insertcode',function(utils){
         if(typeof XRegExp == "undefined"){
             var jsurl,cssurl;
             if(this.rootPath !== undefined){
-                jsurl = utils.removeLastbs(this.rootPath)  + '/third-party/SyntaxHighlighter/shCore.js';
-                cssurl = utils.removeLastbs(this.rootPath) + '/third-party/SyntaxHighlighter/shCoreDefault.css';
+                jsurl = 'https://cdn.jsdelivr.net/npm/editorplus-thirdparty@2.0.0/SyntaxHighlighter/shCore.js';
+                cssurl = 'https://cdn.jsdelivr.net/npm/editorplus-thirdparty@2.0.0/SyntaxHighlighter/shCoreDefault.css';
             }else{
                 jsurl = this.highlightJsUrl;
                 cssurl = this.highlightCssUrl;
