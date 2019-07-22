@@ -47,7 +47,6 @@ module.exports = function (grunt) {
           '_src/plugins/font.js',
           '_src/plugins/link.js',
           '_src/plugins/iframe.js',
-          '_src/plugins/scrawl.js',
           '_src/plugins/removeformat.js',
           '_src/plugins/blockquote.js',
           '_src/plugins/convertcase.js',

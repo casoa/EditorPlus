@@ -23,7 +23,7 @@ UE.I18N['en'] = {
         'insertunorderedlist':'UL', 'fullscreen':'FullScreen', 'directionalityltr':'EnterFromLeft', 'directionalityrtl':'EnterFromRight',
         'rowspacingtop':'RowSpacingTop', 'rowspacingbottom':'RowSpacingBottom', 'pagebreak':'PageBreak', 'insertframe':'Iframe', 'imagenone':'Default',
         'imageleft':'ImageLeft', 'imageright':'ImageRight', 'attachment':'Attachment', 'imagecenter':'ImageCenter',
-        'lineheight':'LineHeight','edittip':'EditTip','customstyle':'CustomStyle', 'scrawl':'Scrawl', 'autotypeset':'AutoTypeset',
+        'lineheight':'LineHeight','edittip':'EditTip','customstyle':'CustomStyle', 'autotypeset':'AutoTypeset',
         'touppercase':'UpperCase', 'tolowercase':'LowerCase','template':'Template','background':'Background','inserttable':'InsertTable',
         'charts': 'charts','drafts': 'Load from Drafts'
     },
@@ -432,22 +432,6 @@ UE.I18N['en'] = {
         'resume':"Resume",
         'richText':"Rich Text",
         'scrPapers':"Scientific Papers"
-    },
-    scrawl:{
-        'static':{
-            'lang_input_previousStep':"Previous",
-            'lang_input_nextsStep':"Next",
-            'lang_input_clear':'Clear',
-            'lang_input_addPic':'AddImage',
-            'lang_input_ScalePic':'ScaleImage',
-            'lang_input_removePic':'RemoveImage',
-            'J_imgTxt':{title:'Add background image'}
-        },
-        'noScarwl':"No paint, a white paper...",
-        'scrawlUpLoading':"Image is uploading, please wait...",
-        'continueBtn':"Try again",
-        'imageError':"Image failed to load!",
-        'backgroundUploading':'Image is uploading,please wait...'
     },
     anchor:{
         'static':{

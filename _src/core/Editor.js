@@ -1475,7 +1475,6 @@
      * ```javascript
      * editor.getActionUrl('config'); //返回 "/ueditor/php/controller.php?action=config"
      * editor.getActionUrl('image'); //返回 "/ueditor/php/controller.php?action=uplaodimage"
-     * editor.getActionUrl('scrawl'); //返回 "/ueditor/php/controller.php?action=uplaodscrawl"
      * editor.getActionUrl('imageManager'); //返回 "/ueditor/php/controller.php?action=listimage"
      * ```
      */

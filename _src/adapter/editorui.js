@@ -48,7 +48,6 @@
         'edittip':'~/dialogs/table/edittip.html',
         'edittable':'~/dialogs/table/edittable.html',
         'edittd':'~/dialogs/table/edittd.html',
-        'scrawl':'~/dialogs/scrawl/scrawl.html',
         'template':'~/dialogs/template/template.html',
         'background':'~/dialogs/background/background.html',
         'charts': '~/dialogs/charts/charts.html'
@@ -179,7 +178,7 @@
     var dialogBtns = {
         noOk:['searchreplace', 'help', 'spechars', 'preview'],
         ok:['attachment', 'anchor', 'link', 'insertimage', 'map', 'gmap', 'insertframe',
-            'insertvideo', 'insertframe', 'edittip', 'edittable', 'edittd', 'scrawl', 'template', 'background', 'charts']
+            'insertvideo', 'insertframe', 'edittip', 'edittable', 'edittd', 'template', 'background', 'charts']
     };
 
     for (var p in dialogBtns) {
@@ -231,13 +230,6 @@
                             onclick:function () {
                                 if (dialog) {
                                     switch (cmd) {
-                                        case "scrawl":
-                                            if (editor.queryCommandState("scrawl") != -1) {
-                                                dialog.render();
-                                                dialog.open();
-                                            }
-
-                                            break;
                                         default:
                                             dialog.render();
                                             dialog.open();
@@ -245,7 +237,7 @@
                                 }
                             },
                             theme:editor.options.theme,
-                            disabled:(cmd == 'scrawl' && editor.queryCommandState("scrawl") == -1) || ( cmd == 'charts' )
+                            disabled: cmd === 'charts'
                         });
                         editorui.buttons[cmd] = ui;
                         editor.addListener('selectionchange', function () {

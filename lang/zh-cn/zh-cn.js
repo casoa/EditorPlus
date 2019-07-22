@@ -24,7 +24,7 @@ UE.I18N['zh-cn'] = {
         'rowspacingtop':'段前距', 'rowspacingbottom':'段后距',  'pagebreak':'分页', 'insertframe':'插入Iframe', 'imagenone':'默认',
         'imageleft':'左浮动', 'imageright':'右浮动', 'attachment':'附件', 'imagecenter':'居中',
         'lineheight':'行间距','edittip' :'编辑提示','customstyle':'自定义标题', 'autotypeset':'自动排版',
-        'touppercase':'字母大写', 'tolowercase':'字母小写','background':'背景','template':'模板','scrawl':'涂鸦',
+        'touppercase':'字母大写', 'tolowercase':'字母小写','background':'背景','template':'模板',
         'inserttable':'插入表格','drafts': '从草稿箱加载', 'charts': '图表'
     },
     'insertorderedlist':{
@@ -434,22 +434,6 @@ UE.I18N['zh-cn'] = {
         'sciPapers':"科技论文"
 
 
-    },
-    'scrawl':{
-        'static':{
-            'lang_input_previousStep':"上一步",
-            'lang_input_nextsStep':"下一步",
-            'lang_input_clear':'清空',
-            'lang_input_addPic':'添加背景',
-            'lang_input_ScalePic':'缩放背景',
-            'lang_input_removePic':'删除背景',
-            'J_imgTxt':{title:'添加背景图片'}
-        },
-        'noScarwl':"尚未作画，白纸一张~",
-        'scrawlUpLoading':"涂鸦上传中,别急哦~",
-        'continueBtn':"继续",
-        'imageError':"糟糕，图片读取失败了！",
-        'backgroundUploading':'背景图片上传中,别急哦~'
     },
     'anchor':{
         'static':{

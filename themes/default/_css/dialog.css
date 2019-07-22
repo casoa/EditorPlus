@@ -175,13 +175,6 @@
     overflow: hidden;
 }
 
-/*scrawl-dialog*/
-.edui-default .edui-for-scrawl .edui-dialog-content {
-    width: 515px;
-    *width: 506px;
-    height: 360px;
-}
-
 /*spechars-dialog*/
 .edui-default .edui-for-spechars .edui-dialog-content {
     width: 620px;
