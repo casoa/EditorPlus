@@ -92,7 +92,6 @@ module.exports = function (grunt) {
           '_src/plugins/searchreplace.js',
           '_src/plugins/customstyle.js',
           '_src/plugins/catchremoteimage.js',
-          '_src/plugins/snapscreen.js',
           '_src/plugins/insertparagraph.js',
           '_src/plugins/template.js',
           '_src/plugins/music.js',

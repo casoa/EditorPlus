@@ -7,7 +7,7 @@
  */
 UE.I18N['zh-cn'] = {
     'labelMap':{
-        'anchor':'锚点', 'undo':'撤销', 'redo':'重做', 'bold':'加粗', 'indent':'首行缩进', 'snapscreen':'截图',
+        'anchor':'锚点', 'undo':'撤销', 'redo':'重做', 'bold':'加粗', 'indent':'首行缩进',
         'italic':'斜体', 'underline':'下划线', 'strikethrough':'删除线', 'subscript':'下标','fontborder':'字符边框',
         'superscript':'上标', 'formatmatch':'格式刷', 'source':'源代码', 'blockquote':'引用',
         'pasteplain':'纯文本粘贴模式', 'selectall':'全选', 'print':'打印', 'preview':'预览',
@@ -95,11 +95,6 @@ UE.I18N['zh-cn'] = {
     'loadconfigError': '获取后台配置项请求出错，上传功能将不能正常使用！',
     'loadconfigFormatError': '后台配置项返回格式出错，上传功能将不能正常使用！',
     'loadconfigHttpError': '请求后台配置项http错误，上传功能将不能正常使用！',
-    'snapScreen_plugin':{
-        'browserMsg':"仅支持IE浏览器！",
-        'callBackErrorMsg':"服务器返回数据有误，请检查配置项之后重试。",
-        'uploadErrorMsg':"截图上传失败，请检查服务器端环境! "
-    },
     'insertcode':{
         'as3':'ActionScript 3',
         'bash':'Bash/Shell',
@@ -588,14 +583,6 @@ UE.I18N['zh-cn'] = {
         getEnd:"已经搜索到文章末尾！",
         getStart:"已经搜索到文章头部",
         countMsg:"总共替换了{#count}处！"
-    },
-    'snapscreen':{
-        'static':{
-            lang_showMsg:"截图功能需要首先安装UEditor截图插件！ ",
-            lang_download:"点此下载",
-            lang_step1:"第一步，下载UEditor截图插件并运行安装。",
-            lang_step2:"第二步，插件安装完成后即可使用，如不生效，请重启浏览器后再试！"
-        }
     },
     'spechars':{
         'static':{},
