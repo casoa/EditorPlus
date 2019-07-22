@@ -4,7 +4,6 @@
 ///commandsTitle  悬浮工具栏
 /**
  *  modified by chengchao01
- *  注意： 引入此功能后，在IE6下会将body的背景图片覆盖掉！
  */
 UE.plugins['autofloat'] = function() {
     var me = this,
