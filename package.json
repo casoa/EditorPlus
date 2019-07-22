@@ -1,9 +1,12 @@
 {
   "name": "editorplus",
-  "title": "editorplus",
-  "description": "editorplus",
+  "description": "",
   "version": "2.0.0",
+  "files": [
+    "dist"
+  ],
   "homepage": "https://github.com/casoa/editorplus",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/casoa/editorplus.git"
