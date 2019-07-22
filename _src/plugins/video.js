@@ -32,7 +32,7 @@ UE.plugins['video'] = function (){
                     ' src="' + me.options.UEDITOR_HOME_URL+'themes/default/images/spacer.gif" style="background:url('+me.options.UEDITOR_HOME_URL+'themes/default/images/videologo.gif) no-repeat center center; border:1px solid gray;'+(align ? 'float:' + align + ';': '')+'" />'
                 break;
             case 'embed':
-                str = '<embed type="application/x-shockwave-flash" class="' + classname + '" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
+                str = '<embed type="application/x-shockwave-flash" class="' + classname + '" pluginspage="https://www.macromedia.com/go/getflashplayer"' +
                     ' src="' +  utils.html(url) + '" width="' + width  + '" height="' + height  + '"'  + (align ? ' style="float:' + align + '"': '') +
                     ' wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" >';
                 break;
@@ -79,7 +79,7 @@ UE.plugins['video'] = function (){
      *
      * var videoAttr = {
      *      //视频地址
-     *      url: 'http://www.youku.com/xxx',
+     *      url: 'https://www.youku.com/xxx',
      *      //视频宽高值， 单位px
      *      width: 200,
      *      height: 100
@@ -102,14 +102,14 @@ UE.plugins['video'] = function (){
      *
      * var videoAttr1 = {
      *      //视频地址
-     *      url: 'http://www.youku.com/xxx',
+     *      url: 'https://www.youku.com/xxx',
      *      //视频宽高值， 单位px
      *      width: 200,
      *      height: 100
      * },
      * videoAttr2 = {
      *      //视频地址
-     *      url: 'http://www.youku.com/xxx',
+     *      url: 'https://www.youku.com/xxx',
      *      //视频宽高值， 单位px
      *      width: 200,
      *      height: 100

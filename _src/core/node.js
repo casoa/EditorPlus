@@ -132,7 +132,7 @@
       var attrs = node.attrs;
       for (var a in attrs) {
         //这里就针对
-        //<p>'<img src='http://nsclick.baidu.com/u.gif?&asdf=\"sdf&asdfasdfs;asdf'></p>
+        //<p>'<img src='https://nsclick.baidu.com/u.gif?&asdf=\"sdf&asdfasdfs;asdf'></p>
         //这里边的\"做转换，要不用innerHTML直接被截断了，属性src
         //有可能做的不够
         attrhtml.push(a + (attrs[a] !== undefined ? '="' + (notTransAttrs[a] ? utils.html(attrs[a]).replace(/["]/g, function (a) {
