@@ -742,7 +742,7 @@
       var me = this;
       var headHtml = [];
       me.fireEvent('getAllHtml', headHtml);
-      return '<html><head>' + (me.options.charset ? '<meta http-equiv="Content-Type" content="text/html; charset=' + me.options.charset + '"/>' : '')
+      return '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
         + (me.document.getElementsByTagName('head')[0].innerHTML) + headHtml.join('\n') + '</head>'
         + '<body>' + me.getContent(null, null, true) + '</body></html>';
     },
