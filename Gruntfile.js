@@ -149,46 +149,6 @@ module.exports = function (grunt) {
           '_parse/video.js'
         ],
         dest: releasedir + pkgJson.name + '.parse.js'
-      },
-      css: {
-        src: [
-          'themes/default/_css/uibase.css',
-          'themes/default/_css/toolbar.css',
-          'themes/default/_css/editor.css',
-          'themes/default/_css/menubutton.css',
-          'themes/default/_css/menu.css',
-          'themes/default/_css/combox.css',
-          'themes/default/_css/button.css',
-          'themes/default/_css/buttonicon.css',
-          'themes/default/_css/splitbutton.css',
-          'themes/default/_css/popup.css',
-          'themes/default/_css/message.css',
-          'themes/default/_css/dialog.css',
-          'themes/default/_css/paragraphpicker.css',
-          'themes/default/_css/tablepicker.css',
-          'themes/default/_css/colorpicker.css',
-          'themes/default/_css/autotypesetpicker.css',
-          'themes/default/_css/cellalignpicker.css',
-          'themes/default/_css/separtor.css',
-          'themes/default/_css/colorbutton.css',
-          'themes/default/_css/multiMenu.css',
-          'themes/default/_css/contextmenu.css',
-          'themes/default/_css/shortcutmenu.css',
-          'themes/default/_css/pastepicker.css'
-        ],
-        dest: releasedir + 'themes/default/css/ueditor.css'
-      }
-    },
-    cssmin: {
-      options: {
-        banner: banner
-      },
-      files: {
-        expand: true,
-        cwd: releasedir + 'themes/default/css/',
-        src: ['*.css', '!*.min.css'],
-        dest: releasedir + 'themes/default/css/',
-        ext: '.min.css'
       }
     },
     uglify: {
@@ -209,44 +169,24 @@ module.exports = function (grunt) {
         files: [
           {
             src: [
-              '*.html',
-              'themes/iframe.css',
-              'themes/default/dialogbase.css',
-              'themes/default/images/**',
               'dialogs/**'
             ],
             dest: releasedir
           }
         ]
       }
-    },
-    clean: {
-      build: {
-        src: [
-          releasedir + "jsp/src",
-          releasedir + "*/upload",
-          releasedir + ".DS_Store",
-          releasedir + "**/.DS_Store",
-          releasedir + ".git",
-          releasedir + "**/.git"
-        ]
-      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('default', 'UEditor build', function () {
+  grunt.registerTask('default', 'build editor', function () {
     grunt.task.run([
       'concat',
-      'cssmin',
       'uglify',
-      'copy:base',
-      'clean'
+      'copy:base'
     ]);
   });
 };

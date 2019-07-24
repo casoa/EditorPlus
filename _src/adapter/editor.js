@@ -692,7 +692,7 @@
         var editor = new UE.Editor(options);
         editor.options.editor = editor;
         utils.loadFile(document, {
-            href:editor.options.themePath + editor.options.theme + "/_css/ueditor.css",
+            href:"https://cdn.jsdelivr.net/npm/editorplus-themedefault@2.0.0/dist/editorplus.css",
             tag:"link",
             type:"text/css",
             rel:"stylesheet"

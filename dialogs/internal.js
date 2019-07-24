@@ -25,7 +25,7 @@
         }, 0 )
     };
     utils.loadFile(document,{
-        href:editor.options.themePath + editor.options.theme + "/dialogbase.css?cache="+Math.random(),
+        href:"https://cdn.jsdelivr.net/npm/editorplus-themedefault@2.0.0/dist/dialogbase.css",
         tag:"link",
         type:"text/css",
         rel:"stylesheet"
